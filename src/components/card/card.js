@@ -28,7 +28,7 @@ export class Card extends DivComponent {
                                 <div class="card__title">Title: ${this.cardState.Title}</div>
                                 <div class="card__year">Year: ${this.cardState.Year}</div>
                                 <button class="button__add ${existInFavourites ? 'button__active' : ''}">
-                                    ${existInFavourites ? '<img src="../../../static/favorite-black.svg" alt="fb"/>' : '<img src="../../../static/favorite-white.svg" alt="fw"/>'}
+                                    ${existInFavourites ? '<img src="../static/favorite-black.svg" alt="fb"/>' : '<img src="../static/favorite-white.svg" alt="fw"/>'}
                                 </button>
                             </div>`;
         if (existInFavourites) {
