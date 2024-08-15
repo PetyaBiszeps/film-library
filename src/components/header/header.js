@@ -13,7 +13,7 @@ export class Header extends DivComponent {
         this.el.classList.add('header');
         this.el.innerHTML = `
             <div>
-                <img src="/static/movie-logo.svg" alt="logo" id="main-logo"/>
+                <img src="../../../static/logo.svg" alt="logo" id="main-logo"/>
             </div>
             <div class="menu">
                 <a href="#" class="menu__item">
