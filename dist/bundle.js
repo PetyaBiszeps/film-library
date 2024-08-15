@@ -40,15 +40,15 @@
             this.el.classList.add('header');
             this.el.innerHTML = `
             <div>
-                <img src="/static/movie-logo.svg" alt="logo" id="main-logo"/>
+                <img src="../../../static/movie-logo.svg" alt="logo" id="main-logo"/>
             </div>
             <div class="menu">
                 <a href="#" class="menu__item">
-                    <img src="/static/search.svg" alt="search-icon" />
+                    <img src="../../../static/search.svg" alt="search-icon" />
                     Search
                 </a>
                 <a href="#favourites" class="menu__item">
-                    <img src="/static/favorites.svg" alt="favourites-icon" />
+                    <img src="../../../static/favorites.svg" alt="favourites-icon" />
                     Favourites
                     <div class="menu__counter">
                         ${this.appState.favourites.length}
@@ -76,9 +76,9 @@
             this.el.innerHTML = `
             <div class="search__wrapper">
                 <input type="text" placeholder="Find movie by name, writer or actor(s)..." class="search__input" value="${this.state.searchQuery ? this.state.searchQuery : ''}"/>
-                <img src="/static/search.svg" alt="search-icon">
+                <img src="../../../static/search.svg" alt="search-icon">
             </div>
-            <button aria-label="search"><img src="/static/search-white.svg" alt="search-icon"></button>
+            <button aria-label="search"><img src="../../../static/search-white.svg" alt="search-icon"></button>
         `;
             this.el.querySelector('button').addEventListener('click', this.search.bind(this));
             this.el.querySelector('input').addEventListener('keydown', (event) => {
@@ -1203,7 +1203,7 @@
                                 <div class="card__title">Title: ${this.cardState.Title}</div>
                                 <div class="card__year">Year: ${this.cardState.Year}</div>
                                 <button class="button__add ${existInFavourites ? 'button__active' : ''}">
-                                    ${existInFavourites ? '<img src="/static/favorite-black.svg" alt="fb"/>' : '<img src="/static/favorite-white.svg" alt="fw"/>'}
+                                    ${existInFavourites ? '<img src="../../../static/favorite-black.svg" alt="fb"/>' : '<img src="../../../static/favorite-white.svg" alt="fw"/>'}
                                 </button>
                             </div>`;
             if (existInFavourites) {
