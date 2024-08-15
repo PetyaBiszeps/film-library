@@ -1,0 +1,67 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card__image {
+    display: flex;
+    justify-content: center;
+
+    background: #303030;
+}
+
+.card__image img {
+    overflow: hidden;
+    border-radius: 8px;
+    min-width: 257px;
+    min-height: 360px;
+    max-height: 360px;
+}
+
+.card__info {
+    display: flex;
+    flex-direction: column;
+    background: var(--black);
+    color: var(--white);
+    gap: 4px;
+
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.card__type {
+    font-size: 14px;
+}
+
+.card__title {
+    font-size: 16px;
+}
+
+.card__year {
+    font-size: 12px;
+}
+
+.button__add {
+    margin: 0;
+    padding: 0;
+
+    width: 36px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 6px;
+    border: 1px solid var(--white);
+
+    background: none;
+    cursor: pointer;
+}
+
+.button__active {
+    border: 1px solid var(--black);
+    background: var(--white);
+}

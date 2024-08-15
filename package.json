@@ -1,0 +1,35 @@
+{
+  "name": "film-library-app",
+  "version": "1.0.0",
+  "description": "Film library application based on TMDb API",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "live-server",
+    "build": "rollup -c --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PetyaBiszeps/filmLibrary.git"
+  },
+  "keywords": [
+    "films"
+  ],
+  "author": "Yaroslav Petrov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PetyaBiszeps/filmLibrary/issues"
+  },
+  "homepage": "https://github.com/PetyaBiszeps/filmLibrary#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
+    "rollup-plugin-import-css": "^3.5.0"
+  },
+  "dependencies": {
+    "on-change": "^5.0.1"
+  }
+}
