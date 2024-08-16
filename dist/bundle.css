@@ -121,6 +121,7 @@
 
 .card__info {
     display: flex;
+    height: 200px;
     flex-direction: column;
     background: var(--black);
     color: var(--white);
@@ -139,6 +140,7 @@
 }
 
 .card__year {
+    margin-top: auto;
     font-size: 12px;
 }
 
