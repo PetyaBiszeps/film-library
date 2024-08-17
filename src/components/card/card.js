@@ -42,7 +42,7 @@ export class Card extends DivComponent {
                 .querySelector('button')
                 .addEventListener('click', this.#addToFavourites.bind(this));
         }
-
+        
         popupDetails(this);
 
         return this.el;

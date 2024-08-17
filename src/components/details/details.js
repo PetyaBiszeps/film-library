@@ -1,4 +1,3 @@
-import {Card} from "../card/card.js"
 import './details.css';
 
 export function popupDetails(cardInstance) {

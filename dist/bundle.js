@@ -1259,7 +1259,7 @@
                     .querySelector('button')
                     .addEventListener('click', this.#addToFavourites.bind(this));
             }
-
+            
             popupDetails(this);
 
             return this.el;
