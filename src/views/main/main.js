@@ -65,15 +65,13 @@ export class mainView extends AbstractView {
                 finalResults = finalResults.concat(additionalData.Search || []);
             }
         }
-        
+
         const fullDetailsPromises = finalResults.map(async (movie) => {
             const movieRes = await fetch(`https://www.omdbapi.com/?i=${movie.imdbID}&apikey=98d8bb42`);
             return await movieRes.json();
         });
 
         const fullDetails = await Promise.all(fullDetailsPromises);
-
-        console.log(fullDetails);
 
         return {
             totalResults: data.totalResults,
