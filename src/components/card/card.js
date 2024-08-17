@@ -1,4 +1,5 @@
 import {DivComponent} from "../../common/div-component.js";
+import {attachDetailsToCard, Details, popup, popupDetails} from "../details/details.js";
 
 import './card.css';
 
@@ -20,6 +21,7 @@ export class Card extends DivComponent {
     render() {
         this.el.classList.add('card');
         const existInFavourites = this.appState.favourites.find(f => f.imdbID === this.cardState.imdbID);
+
         this.el.innerHTML = `<div class="card__image">
                                 <img src="${this.cardState.Poster !== 'N/A' ? this.cardState.Poster : 'path/to/default/poster.jpg'}" alt="${this.cardState.Title} Poster">
                             </div>
@@ -40,7 +42,9 @@ export class Card extends DivComponent {
                 .querySelector('button')
                 .addEventListener('click', this.#addToFavourites.bind(this));
         }
-        console.log(existInFavourites);
+
+        popupDetails(this);
+
         return this.el;
     }
 }

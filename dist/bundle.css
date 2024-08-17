@@ -97,6 +97,79 @@
     gap: 15px;
     overflow: hidden;
 }
+.popup {
+    display: flex;
+    flex-direction: row;
+
+
+    background-color: var(--white);
+    transform: translate(-50%, -50%);
+
+    top: 50%;
+    left: 50%;
+
+    padding: 12px;
+    position: fixed;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+
+    z-index: 1000;
+}
+
+.details__image {
+    padding: 0 24px 0 0;
+}
+
+.details__image img {
+    width: 35vh;
+    height: 100%;
+    border-radius: 12px;
+}
+
+.details__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.details__title {
+
+}
+
+.details__type {
+
+}
+
+.details__description {
+
+}
+
+.details__year {
+
+}
+
+.popup-close {
+    font-size: 24px;
+    font-weight: bold;
+
+    color: #feffff;
+    background-color: #d9534f;
+
+    border: 1px solid #d6352d;
+    border-radius: 5px;
+
+    align-self: flex-end;
+}
+
+.popup-close:hover {
+    background-color: #bd403d;
+    border: 1px solid #d6352d;
+}
+
+.popup-close:focus {
+    background-color: #9c2a27;
+}
 .card {
     display: flex;
     flex-direction: column;

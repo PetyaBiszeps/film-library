@@ -1177,6 +1177,49 @@
     onChange.target = proxy => proxy?.[TARGET] ?? proxy;
     onChange.unsubscribe = proxy => proxy?.[UNSUBSCRIBE] ?? proxy;
 
+    function popupDetails(cardInstance) {
+        const el = cardInstance.el;
+
+        if (el !== cardInstance.cardState.button) {
+            el
+                .querySelector('.card__image')
+                .addEventListener('click', () => {
+                    const rootElement = document.querySelector('.rootC');
+                    const popup = document.createElement('div');
+                    popup.classList.add('popup');
+                    popup.innerHTML = `
+                    <div class="details__image">
+                            <img src="${cardInstance.cardState.Poster !== 'N/A' ? cardInstance.cardState.Poster : 'path/to/default/poster.jpg'}" alt="${cardInstance.cardState.Title} Poster">
+                    </div>
+                    <div class="details__info">
+                        <div class="details__title">Title: ${cardInstance.cardState.Title}</div>
+                        <div class="details__type">Type: ${cardInstance.cardState.Type}</div>
+                        <div class="details__genre">Genre: ${cardInstance.cardState.Genre}</div>
+                        <div class="details__actors">Actors: ${cardInstance.cardState.Actors}</div>
+                        <div class="details__description">Description: ${cardInstance.cardState.Plot}</div>
+                        <div class="details__year">Year: ${cardInstance.cardState.Year}</div>
+                        <button class="popup-close">Close</button>
+                    </div>`;
+
+                    popup
+                        .querySelector('.popup-close')
+                        .addEventListener('click', () => {
+                            popup.remove();
+                        });
+
+                    document.addEventListener('keydown', (event) => {
+                        if (event.key === 'Escape' || event.key === 'Enter' || event.key === 'Backspace') {
+                            popup.remove();
+                            document.removeEventListener('click', this);
+                            document.removeEventListener('keydown', this);
+                        }
+                    });
+
+                    rootElement.insertAdjacentElement('afterend', popup);
+                });
+        }
+    }
+
     class Card extends DivComponent {
         constructor(appState, cardState) {
             super();
@@ -1195,6 +1238,7 @@
         render() {
             this.el.classList.add('card');
             const existInFavourites = this.appState.favourites.find(f => f.imdbID === this.cardState.imdbID);
+
             this.el.innerHTML = `<div class="card__image">
                                 <img src="${this.cardState.Poster !== 'N/A' ? this.cardState.Poster : 'path/to/default/poster.jpg'}" alt="${this.cardState.Title} Poster">
                             </div>
@@ -1215,7 +1259,9 @@
                     .querySelector('button')
                     .addEventListener('click', this.#addToFavourites.bind(this));
             }
-            console.log(existInFavourites);
+
+            popupDetails(this);
+
             return this.el;
         }
     }
@@ -1304,10 +1350,19 @@
                     finalResults = finalResults.concat(additionalData.Search || []);
                 }
             }
+            
+            const fullDetailsPromises = finalResults.map(async (movie) => {
+                const movieRes = await fetch(`https://www.omdbapi.com/?i=${movie.imdbID}&apikey=98d8bb42`);
+                return await movieRes.json();
+            });
+
+            const fullDetails = await Promise.all(fullDetailsPromises);
+
+            console.log(fullDetails);
 
             return {
                 totalResults: data.totalResults,
-                Search: finalResults.slice(0, this.state.resultsPerPage)
+                Search: fullDetails.slice(0, this.state.resultsPerPage)
             };
         }
 
