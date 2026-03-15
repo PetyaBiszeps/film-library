@@ -1,0 +1,14 @@
+{
+  "name": "film-library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "dev": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PetyaBiszeps/film-library.git"
+  },
+  "private": true
+}

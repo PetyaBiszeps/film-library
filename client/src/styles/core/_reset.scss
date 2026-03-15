@@ -1,0 +1,106 @@
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+  font-weight: normal;
+  letter-spacing: normal;
+}
+
+html, body, #app {
+  width: 100%;
+  max-width: 100%;
+}
+
+body, #app {
+  min-width: 320px;
+  min-height: 100dvh;
+}
+
+input, button, label, select, textarea,
+optgroup, option {
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+h1, h2, h3, h4, h5, h6,
+input, button, label, select, textarea,
+optgroup, option, fieldset, ul, ol, li,
+strong, a, p, span, code, pre, kbd, samp {
+  color: inherit;
+}
+
+input, button, select {
+  background-color: transparent;
+}
+
+input, select {
+  border: none;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+fieldset, button {
+  border: none;
+}
+
+a, button, input, textarea, select {
+  touch-action: manipulation;
+}
+
+menu {
+  margin-block-end: 0;
+  margin-block-start: 0;
+  padding-inline-start: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button, input {
+  line-height: 1.2;
+}
+
+button, input[type='checkbox'], input[type='radio'] {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+button:disabled, input:disabled {
+  cursor: not-allowed;
+}
