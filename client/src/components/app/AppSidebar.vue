@@ -3,8 +3,5 @@ import SidebarItem from '@/components/app/sidebar/SidebarItem.vue'
 </script>
 
 <template>
-  <div :class="['mainLayout']">
-    <SidebarItem />
-    <RouterView />
-  </div>
+  <SidebarItem />
 </template>
