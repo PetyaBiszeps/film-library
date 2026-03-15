@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	apihttp "film-library/server/internal/http"
 )
 
 func main() {
@@ -23,7 +25,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:    addr,
-		Handler: mux,
+		Handler: apihttp.CORS(mux),
 	}
 
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {

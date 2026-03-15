@@ -11,7 +11,11 @@ const router = createRouter({
     meta: {
       guest: true
     },
-    children: []
+    children: [{
+      path: '',
+      name: 'library',
+      component: () => import('@/views/LibraryView.vue')
+    }]
   }]
 })
 
