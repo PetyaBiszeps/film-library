@@ -11,11 +11,7 @@ const router = createRouter({
     meta: {
       guest: true
     },
-    children: [{
-      path: '',
-      name: 'landing',
-      component: () => import('@/views/LandingView.vue')
-    }]
+    children: []
   }]
 })
 
