@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <div />
+  <button />
 </template>

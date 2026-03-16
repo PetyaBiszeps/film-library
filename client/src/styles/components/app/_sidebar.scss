@@ -2,4 +2,10 @@
 
 .sidebarWrapper {
   width: 20%;
+
+  & > header {}
+
+  & > main {}
+
+  & > footer {}
 }

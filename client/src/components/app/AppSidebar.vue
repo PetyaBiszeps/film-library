@@ -1,9 +1,11 @@
-<script setup lang="ts">
-import SidebarItem from '@/components/app/sidebar/SidebarItem.vue'
-</script>
-
 <template>
   <aside :class="['sidebarWrapper']">
-    <SidebarItem />
+    <header>
+      <h3>Flicks</h3>
+    </header>
+
+    <main />
+
+    <footer />
   </aside>
 </template>
