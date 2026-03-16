@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import SidebarItem from '@/components/app/sidebar/SidebarItem.vue'
+import AppSidebar from '@/components/app/AppSidebar.vue'
 </script>
 
 <template>
   <div :class="['mainLayout']">
-    <SidebarItem />
+    <AppSidebar />
     <RouterView />
   </div>
 </template>
