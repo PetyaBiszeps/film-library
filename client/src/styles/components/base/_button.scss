@@ -1,3 +1,34 @@
 @use "../../resources.scss" as *;
 
-.baseButton {}
+.baseButton {
+  &.xs {
+    @include control-size('xs')
+  }
+
+  &.sm {
+    @include control-size('sm')
+  }
+
+  &.md {
+    @include control-size('md')
+  }
+
+  &.lg {
+    @include control-size('lg')
+  }
+
+  &.xl {
+    @include control-size('xl')
+  }
+
+  &.\\2xl {
+    @include control-size('2xl')
+  }
+
+  &.\\4xl {
+    @include control-size('4xl')
+  }
+
+  @include button-base;
+  @include button-variant;
+}
