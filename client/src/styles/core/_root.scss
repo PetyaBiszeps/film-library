@@ -3,13 +3,14 @@
 // -----------------------------------------------------------------------------
 
 :root {
-  --padding-xs: 0;
-  --padding-sm: 0;
-  --padding-md: 0;
-  --padding-lg: 0;
-  --padding-xl: 0;
-  --padding-2xl: 0;
-  --padding-4xl: 0;
+  --padding-xs: 6px 10px;
+  --padding-sm: 6px 12px;
+  --padding-md: 8px 10px;
+  --padding-lg: 8px 12px;
+  --padding-xl: 10px 16px;
+  --padding-2xl: 12px 16px;
+  --padding-4xl: 16px 24px;
+  --padding-none: 0;
 }
 
 

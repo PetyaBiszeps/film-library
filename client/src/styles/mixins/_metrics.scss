@@ -29,4 +29,8 @@
   @if ($size == '4xl') {
     padding: $padding-4xl;
   }
+
+  @if ($size == 'none') {
+    padding: $padding-none;
+  }
 }
