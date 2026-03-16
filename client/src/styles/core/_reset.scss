@@ -19,11 +19,11 @@ html {
 }
 
 body {
-  font-size: 1rem;
-  font-family: "Inter", sans-serif;
-  line-height: 1.5;
-  font-weight: normal;
-  letter-spacing: normal;
+  font-size: $font-size-lg;
+  font-family: $font-family-base;
+  line-height: 1.4;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0;
 }
 
 html, body, #app {
