@@ -3,5 +3,7 @@ import SidebarItem from '@/components/app/sidebar/SidebarItem.vue'
 </script>
 
 <template>
-  <SidebarItem />
+  <aside :class="['sidebarWrapper']">
+    <SidebarItem />
+  </aside>
 </template>

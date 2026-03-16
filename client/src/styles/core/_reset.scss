@@ -36,6 +36,11 @@ body, #app {
   min-height: 100dvh;
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+}
+
 input, button, label, select, textarea,
 optgroup, option {
   font: inherit;
