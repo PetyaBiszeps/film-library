@@ -6,4 +6,8 @@
 @use "layouts/mainLayout.scss";
 
   // Components
+    // App
 @use "components/app/sidebar.scss";
+
+    // Base
+@use "components/base/button.scss";
