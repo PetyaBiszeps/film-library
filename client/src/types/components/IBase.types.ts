@@ -1,6 +1,6 @@
 export interface IBaseButton {
   type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   variant?: 'primary' | 'secondary' | 'tertiary' | 'tab'
 }

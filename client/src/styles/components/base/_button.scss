@@ -1,0 +1,11 @@
+@use "../../resources.scss" as *;
+
+.baseButton {
+  gap: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  place-items: center;
+
+  // &.primary, &.secondary, &.tertiary, &.tab {}
+  // &.xs, &.sm, &.md, &.lg, &.xl {}
+}
