@@ -1,1 +1,147 @@
-// Typography file
+@mixin numbers {
+  font-family: var(--font-numbers), sans-serif;
+  font-size: var(--fs-numbers);
+  line-height: var(--lh-numbers);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--ls-numbers);
+}
+
+@mixin logo {
+  font-family: var(--font-title), serif;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  font-weight: var(--weight-bold);
+  font-style: italic;
+  letter-spacing: var(--ls-h2);
+}
+
+@mixin h1 {
+  font-family: var(--font-title), serif;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  font-weight: var(--weight-regular);
+  font-style: italic;
+  letter-spacing: var(--ls-h1);
+}
+
+@mixin h2 {
+  font-family: var(--font-title), serif;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  font-weight: var(--weight-regular);
+  font-style: italic;
+  letter-spacing: var(--ls-h2);
+}
+
+@mixin h3 {
+  font-family: var(--font-title), serif;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  font-weight: var(--weight-regular);
+  font-style: italic;
+  letter-spacing: var(--ls-h3);
+}
+
+@mixin h4 {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-h4);
+  line-height: var(--lh-h4);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--ls-h4);
+}
+
+@mixin h5 {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-h5);
+  line-height: var(--lh-h5);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--ls-h5);
+}
+
+@mixin h6 {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-h6);
+  line-height: var(--lh-h6);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--ls-h6);
+}
+
+@mixin body {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--ls-body);
+}
+
+@mixin body-accent {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--ls-body);
+}
+
+@mixin body-strong {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--ls-body);
+}
+
+@mixin caption {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--ls-caption);
+}
+
+@mixin caption-accent {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--ls-caption);
+}
+
+@mixin sm {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--ls-sm);
+}
+
+@mixin sm-accent {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--ls-sm);
+}
+
+@mixin xs {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-xs);
+  line-height: var(--lh-xs);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--ls-xs);
+}
+
+@mixin xs-accent {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-xs);
+  line-height: var(--lh-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--ls-xs);
+}
+
+@mixin xxs {
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-2xs);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--ls-2xs);
+}
