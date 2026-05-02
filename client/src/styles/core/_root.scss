@@ -10,7 +10,63 @@
 // Root typography matrix
 // -----------------------------------------------------------------------------
 
-:root {}
+:root {
+  --font-title: 'Playfair Display';
+  --font-body: 'Inter';
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --fs-numbers: 0.875rem;
+  --lh-numbers: 1.2;
+  --ls-numbers: 0px;
+
+  --fs-h1: 3rem;
+  --lh-h1: 1.1;
+  --ls-h1: 0px;
+
+  --fs-h2: 1.5rem;
+  --lh-h2: 1.2;
+  --ls-h2: 0px;
+
+  --fs-h3: 1.25rem;
+  --lh-h3: 1.35;
+  --ls-h3: 0px;
+
+  --fs-h4: 1rem;
+  --lh-h4: 1.35;
+  --ls-h4: 0px;
+
+  --fs-h5: 0.875rem;
+  --lh-h5: 1.5;
+  --ls-h5: 0px;
+
+  --fs-h6: 0.75rem;
+  --lh-h6: 1.5;
+  --ls-h6: 0px;
+
+  --fs-body: 0.875rem;
+  --lh-body: 1.6;
+  --ls-body: 0px;
+
+  --fs-caption: 0.8125rem;
+  --lh-caption: 1.6;
+  --ls-caption: 0px;
+
+  --fs-sm: 0.8125rem;
+  --lh-sm: 1.5;
+  --ls-sm: 0px;
+
+  --fs-xs: 0.75rem;
+  --lh-xs: 1.5;
+  --ls-xs: 0px;
+
+  --fs-2xs: 0.6875rem;
+  --lh-2xs: 1.5;
+  --ls-2xs: 0px;
+}
 
 
 
