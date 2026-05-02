@@ -7,3 +7,17 @@
 // -----------------------------------------------------------------------------
 // Semantic palette (single public API for components)
 // -----------------------------------------------------------------------------
+
+$accent: var(--accent);
+$accent-strong: var(--accent-strong);
+
+$text-primary: var(--text-primary);
+$text-secondary: var(--text-secondary);
+$text-tertiary: var(--text-tertiary);
+
+$bg-page: var(--bg-page);
+$bg-accent: var(--bg-accent);
+$bg-surface: var(--bg-surface);
+
+$border-accent: var(--border-accent);
+$border-default: var(--border-default);

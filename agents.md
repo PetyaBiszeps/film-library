@@ -61,7 +61,8 @@ There are no test scripts configured yet.
 
 - Global styles are imported from `client/src/styles/main.scss` in `client/src/main.ts`.
 - CSS custom properties are defined in `client/src/styles/core/_root.scss`.
-- SCSS token variables are forwarded from `client/src/styles/core/_tokens.scss` through `client/src/styles/resources.scss`.
+- SCSS color token variables are defined in `client/src/styles/core/_colors.scss` and forwarded through `client/src/styles/resources.scss`.
+- Component SCSS should use forwarded SCSS tokens like `$text-primary`, `$bg-page`, `$accent`, and `$border-default` instead of direct `var(...)` references.
 - Reuse existing mixins from `client/src/styles/mixins/` before adding new styling primitives.
 - Component styles are organized under `client/src/styles/components/`; layout styles are under `client/src/styles/layouts/`.
 - Dark theme tokens already exist under `:root.dark` and `:root[data-theme="dark"]`.
