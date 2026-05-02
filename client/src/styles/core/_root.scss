@@ -2,7 +2,25 @@
 // Root metrics matrix
 // -----------------------------------------------------------------------------
 
-:root {}
+:root {
+  --ui-padding-xs: 6px 10px;
+  --ui-padding-sm: 8px 12px;
+  --ui-padding-md: 12px 16px;
+  --ui-padding-lg: 14px 28px;
+  --ui-padding-xl: 16px 32px;
+  --ui-padding-none: 0;
+
+  --border-radius-xs: 6px;
+  --border-radius-sm: 12px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+  --border-radius-xl: 32px;
+  --border-radius-max: 999px;
+  --border-radius-none: 0;
+  --border-radius-circle: 50%;
+
+  --transition-base: all 0.3s ease-in-out;
+}
 
 
 
