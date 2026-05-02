@@ -1,3 +1,4 @@
+// import useAPI from '@/composables/useAPI.ts'
 import { defineStore } from 'pinia'
 import {
   toRefs,
@@ -5,6 +6,8 @@ import {
 } from 'vue'
 
 const useAuthStore = defineStore('auth', () => {
+  // const http = useAPI()
+
   const state = reactive({})
 
   return {
