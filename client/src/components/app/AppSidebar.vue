@@ -1,8 +1,12 @@
+<script setup lang="ts">
+import SidebarContent from '@/content/Sidebar.content.ts'
+</script>
+
 <template>
-  <aside :class="['sidebar']">
+  <aside class="sidebar">
     <header class="sidebar__header">
       <h3 class="sidebar__header__title">
-        Flicks
+        {{ SidebarContent.header.title }}
       </h3>
     </header>
 

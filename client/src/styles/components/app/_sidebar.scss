@@ -1,3 +1,11 @@
 @use "../../resources.scss" as *;
 
-.sidebar {}
+.sidebar {
+  &__header {
+    &__title {}
+  }
+
+  &__content {}
+
+  &__footer {}
+}
