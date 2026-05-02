@@ -29,7 +29,7 @@ This repository is a pet project for a film library. It is a monorepo with a Vue
 - TypeScript is strict: `strict`, `noUnusedLocals`, `noUnusedParameters`, and `noFallthroughCasesInSwitch` are enabled.
 - Pinia 3 is installed with `pinia-plugin-persistedstate` in `client/src/stores/store.ts`.
 - Vue Router is used from `client/src/router/router.ts`.
-- Ofetch is wrapped by `client/src/composables/useAPI.ts`.
+- Ofetch is used through a singleton client in `client/src/api/http.ts`, wrapped by `client/src/composables/useAPI.ts`.
 - Sass/SCSS is used for styling.
 
 ## Frontend Commands
@@ -54,7 +54,8 @@ There are no test scripts configured yet.
 - Layouts live in `client/src/layouts/` and route views live in `client/src/views/`.
 - Shared types are exported from `client/src/types/index.ts`.
 - Store setup lives in `client/src/stores/store.ts`; feature stores live next to it, for example `auth.ts`.
-- API access should go through `useHttp()` unless there is a concrete reason to use raw ofetch.
+- API access should go through `useAPI()` from `client/src/composables/useAPI.ts`.
+- Reuse the singleton ofetch instance from `client/src/api/http.ts`; do not create additional HTTP client instances unless there is a concrete need.
 
 ## Frontend Styling
 
