@@ -1,8 +1,8 @@
 @use "../resources.scss" as *;
 
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -19,14 +19,13 @@ html {
 }
 
 body {
-  font-size: $font-size-lg;
-  font-family: $font-family-base;
-  line-height: 1.4;
-  font-weight: $font-weight-regular;
-  letter-spacing: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: normal;
+  letter-spacing: normal;
 }
 
-html, body, #app {
+html, body {
   width: 100%;
   max-width: 100%;
 }
@@ -36,9 +35,8 @@ body, #app {
   min-height: 100dvh;
 }
 
-#app {
-  display: flex;
-  flex-direction: column;
+html, body, #app {
+  width: 100%;
 }
 
 input, button, label, select, textarea,

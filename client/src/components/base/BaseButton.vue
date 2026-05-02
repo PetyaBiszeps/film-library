@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {
-  IButton
+  IBaseButton
 } from '@/types'
 
 const {
@@ -8,14 +8,12 @@ const {
   disabled = false,
   size = 'md',
   variant = 'primary'
-} = defineProps<IButton>()
+} = defineProps<IBaseButton>()
 
 const emit = defineEmits<{
   (e: 'click', event: PointerEvent): void
 }>()
 
-  // Init
-  // Constants
   // Methods
 function handleClick(e: PointerEvent): void {
   if (disabled) {

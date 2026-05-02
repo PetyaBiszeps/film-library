@@ -1,11 +1,13 @@
 <template>
-  <aside :class="['sidebarWrapper']">
-    <header>
-      <h3>Flicks</h3>
+  <aside :class="['sidebar']">
+    <header class="sidebar__header">
+      <h3 class="sidebar__header__title">
+        Flicks
+      </h3>
     </header>
 
-    <main />
+    <main class="sidebar__content" />
 
-    <footer />
+    <footer class="sidebar__footer" />
   </aside>
 </template>

@@ -3,7 +3,7 @@ import AppSidebar from '@/components/app/AppSidebar.vue'
 </script>
 
 <template>
-  <div :class="['mainLayout']">
+  <div :class="['appLayout']">
     <AppSidebar />
     <RouterView />
   </div>

@@ -1,13 +1,16 @@
 @use "core/root.scss";
 @use "core/fonts.scss";
 @use "core/reset.scss";
+@use "core/keyframes.scss";
+@use "core/transitions.scss";
 
   // Layouts
-@use "layouts/mainLayout.scss";
+@use "layouts/app.scss";
+
+  // Views
+@use "views/library.scss";
 
   // Components
-    // App
-@use "components/app/sidebar.scss";
-
     // Base
-@use "components/base/button.scss";
+    // App
+    // Common

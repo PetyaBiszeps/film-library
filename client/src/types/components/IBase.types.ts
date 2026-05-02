@@ -1,4 +1,4 @@
-export interface IButton {
+export interface IBaseButton {
   type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl'

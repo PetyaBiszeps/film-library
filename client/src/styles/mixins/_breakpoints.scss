@@ -1,0 +1,25 @@
+// Breakpoints (mobile first)
+
+@mixin tablet {
+  @media (min-width: 769px) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1281px) {
+    @content;
+  }
+}
+
+@mixin monitor {
+  @media (min-width: 1441px) {
+    @content;
+  }
+}
