@@ -18,8 +18,8 @@ This repository is a pet project for a film library. It is a monorepo with a Vue
 
 ## Root Commands
 
-- `yarn dev` or `npm run dev`: run `scripts/dev.sh` from the repo root.
-- `yarn dev:client` or `npm run dev:client`: run the Vite dev server in `client/`.
+- `pnpm dev` or `npm run dev`: run `scripts/dev.sh` from the repo root.
+- `pnpm dev:client` or `npm run dev:client`: run the Vite dev server in `client/`.
 - `dev:server` exists in root `package.json` but is currently empty.
 
 ## Frontend Stack
@@ -36,11 +36,11 @@ This repository is a pet project for a film library. It is a monorepo with a Vue
 
 Run frontend commands from `client/` unless using the root `dev:client` script.
 
-- `yarn dev`: start Vite.
-- `yarn build`: run `vite build --debug`.
-- `yarn preview`: preview the built app.
-- `yarn lint`: run ESLint.
-- `yarn lint:fix`: run ESLint with fixes.
+- `pnpm dev`: start Vite.
+- `pnpm build`: run `vite build --debug`.
+- `pnpm preview`: preview the built app.
+- `pnpm lint`: run ESLint.
+- `pnpm lint:fix`: run ESLint with fixes.
 
 There are no test scripts configured yet.
 

@@ -19,7 +19,7 @@ trap cleanup EXIT INT TERM
 
 start_client() {
   if [[ -f "${ROOT_DIR}/client/package.json" ]]; then
-    (cd "${ROOT_DIR}/client" && yarn dev) &
+    (cd "${ROOT_DIR}/client" && pnpm dev) &
     client_pid=$!
     return
   fi
