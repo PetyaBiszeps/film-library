@@ -1,11 +1,85 @@
 @use "../../resources.scss" as *;
 
 .baseButton {
-  gap: 12px;
+  gap: 8px;
+  width: fit-content;
   cursor: pointer;
+  border: 1px solid transparent;
   display: inline-flex;
-  place-items: center;
+  background: transparent;
+  transition: $transition-base;
+  user-select: none;
+  white-space: nowrap;
+  align-items: center;
+  justify-content: center;
 
-  // &.primary, &.secondary, &.tertiary, &.tab {}
-  // &.xs, &.sm, &.md, &.lg, &.xl {}
+  &.primary {
+    color: $text-quaternary;
+    border-color: $accent-strong;
+    background-color: $accent-strong;
+
+    &:not(:disabled):hover {
+      border-color: $accent;
+      background-color: $accent;
+    }
+  }
+
+  &.secondary {
+    color: $accent;
+    border-color: $border-accent;
+    background-color: $bg-accent;
+
+    &:not(:disabled):hover {
+      color: $text-quaternary;
+      border-color: $accent-strong;
+      background-color: $accent-strong;
+    }
+  }
+
+  &.tertiary {}
+
+  &.none {
+    padding: $padding-none;
+
+    @include xs-accent;
+  }
+
+  &.xs {
+    padding: $padding-xs;
+
+    @include xs-accent;
+  }
+
+  &.sm {
+    padding: $padding-sm;
+
+    @include sm-accent;
+  }
+
+  &.md {
+    padding: $padding-md;
+
+    @include sm-accent;
+  }
+
+  &.lg {
+    padding: $padding-lg;
+
+    @include body-accent;
+  }
+
+  &.xl {
+    padding: $padding-xl;
+
+    @include body-accent;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+  }
 }
