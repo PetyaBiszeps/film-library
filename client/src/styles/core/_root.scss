@@ -74,7 +74,37 @@
 // Root default palette
 // -----------------------------------------------------------------------------
 
-:root {}
+:root {
+  --accent: #2B4DB3;
+  --accent-strong: #4E7CF5;
+
+  --text-primary: #000000;
+  --text-secondary: #526077;
+  --text-tertiary: #6E7C91;
+
+  --bg-page: #FFFFFF;
+  --bg-accent: #E6EEFF;
+  --bg-surface: #F5F7FB;
+
+  --border-accent: #C6D6FF;
+  --border-default: #E6EAF2;
+
+  &.dark, &[data-theme="dark"] {
+    --accent: #7FA0FF;
+    --accent-strong: #4E7CF5;
+
+    --text-primary: #F2F4F7;
+    --text-secondary: #A7B0BF;
+    --text-tertiary: #8D98AA;
+
+    --bg-page: #0B0F16;
+    --bg-accent: #1B2740;
+    --bg-surface: #141B24;
+
+    --border-accent: #2F3F6B;
+    --border-default: #263040;
+  }
+}
 
 
 
