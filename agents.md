@@ -4,8 +4,8 @@
 
 This repository is a pet project for a film library. It is a monorepo with a Vue/TypeScript client and a Go server.
 
-- Root package: `film-library`.
-- Frontend: `client/`, app name `flicks`.
+- Root package: `flicks`.
+- Frontend: `client/`, package name `flicks-client`.
 - Backend: `server/`, Go module `film-library/server`.
 - Do not commit or expose `.env` files. Use `.env.example` as the public reference.
 
