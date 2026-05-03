@@ -21,6 +21,7 @@ import BaseLink from '@/components/base/BaseLink.vue'
 
           size="sm"
           variant="tertiary"
+          style="font-size: 0.6875rem;"
         />
       </li>
     </ul>
