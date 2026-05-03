@@ -8,10 +8,4 @@
   min-height: 100dvh;
   background: $bg-page;
   flex-direction: column;
-
-  > :not(.sidebar) {
-    flex: 1 1 auto;
-    width: 100%;
-    min-width: 0;
-  }
 }

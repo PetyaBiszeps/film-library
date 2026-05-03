@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavigationContent from '@/content/Navigation.content.ts'
+import BaseLink from '@/components/base/BaseLink.vue'
 </script>
 
 <template>
@@ -7,20 +8,20 @@ import NavigationContent from '@/content/Navigation.content.ts'
     class="navbar"
     :aria-label="`${NavigationContent.brand.title} mobile navigation`"
   >
-    <button
-      v-for="item in NavigationContent.main"
-      :key="item.key"
+    <ul class="navbar__list">
+      <li
+        v-for="item in NavigationContent.main"
+        :key="item.key"
+        class="navbar__list__item"
+      >
+        <BaseLink
+          :name="item.label"
+          :href="''"
 
-      :type="'button'"
-      :class="['navbar__item', {
-        active: item.key === 'library'
-      }]"
-    >
-      <span class="navbar__item__indicator" />
-
-      <span class="navbar__item__label">
-        {{ item.label }}
-      </span>
-    </button>
+          size="sm"
+          variant="tertiary"
+        />
+      </li>
+    </ul>
   </nav>
 </template>
