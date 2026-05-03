@@ -5,11 +5,15 @@ import AppDock from '@/components/app/AppDock.vue'
 </script>
 
 <template>
-  <div :class="['appLayout']">
-    <AppHeader />
+  <div class="appLayout">
     <AppSidebar />
-    <RouterView />
 
-    <AppDock />
+    <div class="appLayout__content">
+      <AppHeader />
+
+      <RouterView />
+
+      <AppDock />
+    </div>
   </div>
 </template>

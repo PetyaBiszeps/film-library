@@ -1,3 +1,7 @@
 @use "../../resources.scss" as *;
 
-.header {}
+.header {
+  @include laptop {
+    display: none;
+  }
+}

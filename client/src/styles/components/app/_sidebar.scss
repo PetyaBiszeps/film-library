@@ -1,6 +1,8 @@
 @use "../../resources.scss" as *;
 
 .sidebar {
+  display: none;
+
   &__header {
     &__title {}
   }
@@ -8,4 +10,8 @@
   &__content {}
 
   &__footer {}
+
+  @include laptop {
+    display: block;
+  }
 }
