@@ -17,3 +17,11 @@ export interface IBaseInput {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   variant?: 'primary' | 'secondary'
 }
+
+export interface IBaseLink {
+  name?: string
+  href: string
+  exact?: boolean
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  variant?: 'primary' | 'secondary'
+}

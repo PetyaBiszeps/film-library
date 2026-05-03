@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import AppSidebar from '@/components/app/AppSidebar.vue'
+import AppNavigation from '@/components/app/AppNavigation.vue'
 </script>
 
 <template>
   <div :class="['appLayout']">
-    <AppSidebar />
     <RouterView />
+    <AppNavigation />
   </div>
 </template>

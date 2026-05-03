@@ -1,0 +1,46 @@
+@use "../../resources.scss" as *;
+
+.navbar {
+  gap: 8px;
+  width: 100%;
+  border: 1px solid $border-default;
+  padding: 8px;
+  display: flex;
+  background: $bg-page;
+  box-shadow: 0 -8px 24px rgb(0 0 0 / 40%);
+
+  &__item {
+    $item: &;
+
+    gap: 4px;
+    width: 100%;
+    color: $text-secondary;
+    border: 1px solid transparent;
+    display: flex;
+    padding: 8px 4px;
+    background: transparent;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    &.active {
+      color: $accent-default;
+      border-color: $border-accent;
+      background-color: $bg-accent;
+
+      #{$item}__indicator {
+        background-color: $accent-light;
+      }
+    }
+
+    &__indicator {
+      width: 18px;
+      height: 3px;
+      background: $border-default;
+    }
+
+    &__label {
+      @include xxs;
+    }
+  }
+}
