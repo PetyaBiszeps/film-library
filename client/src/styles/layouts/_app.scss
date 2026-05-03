@@ -11,5 +11,11 @@
 
   &__content {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    > :nth-child(2) {
+      flex: 1;
+    }
   }
 }
