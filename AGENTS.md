@@ -16,6 +16,13 @@ This repository is a pet project for a film library. It is a monorepo with a Vue
 - `scripts/dev.sh` starts the backend if `server/cmd/api/main.go` exists and then starts the frontend.
 - `film-library.pen` is a design file and is ignored by git via `*.pen`.
 
+## Design File
+
+- The active design file is `film-library.pen` in the repository root, not under `client/`.
+- Top-level design layers include desktop screens (`Dark theme`, `Light theme`, `Skeleton`), design system layers (`UI Kit`, `UI Components`), and mobile variants (`Mobile Dark theme`, `Mobile Light theme`, `Mobile - open filter ...`, `Mobile - open profile ...`, `Mobile - typing search ...`).
+- The current app navigation tabs are `Home`, `Bookmarks`, `Collections`, and `History`; do not use the old labels `Library`, `Watchlist`, or `Lists` for navigation.
+- `UI Components` contains base component specs such as `BaseLink`; use these layers as the visual source of truth for component SCSS.
+
 ## Root Commands
 
 - `pnpm dev` or `npm run dev`: run `scripts/dev.sh` from the repo root.
