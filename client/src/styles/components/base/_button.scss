@@ -15,28 +15,37 @@
 
   &.primary {
     color: $text-quaternary;
-    border-color: $accent-strong;
-    background-color: $accent-strong;
+    border-color: $accent-light;
+    background-color: $accent-light;
 
     &:not(:disabled):hover {
-      border-color: $accent;
-      background-color: $accent;
+      border-color: $accent-default;
+      background-color: $accent-default;
+    }
+
+    &:not(:disabled):active {
+      border-color: $accent-dark;
+      background-color: $accent-dark;
     }
   }
 
   &.secondary {
-    color: $accent;
+    color: $accent-default;
     border-color: $border-accent;
     background-color: $bg-accent;
 
     &:not(:disabled):hover {
       color: $text-quaternary;
-      border-color: $accent-strong;
-      background-color: $accent-strong;
+      border-color: $accent-light;
+      background-color: $accent-light;
+    }
+
+    &:not(:disabled):active {
+      color: $text-quaternary;
+      border-color: $accent-dark;
+      background-color: $accent-dark;
     }
   }
-
-  &.tertiary {}
 
   &.none {
     padding: $padding-none;
@@ -75,7 +84,7 @@
   }
 
   &:focus-visible {
-    outline: 2px solid $accent;
+    outline: 2px solid $accent-default;
     outline-offset: 1px;
   }
 

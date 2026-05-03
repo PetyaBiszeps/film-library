@@ -92,7 +92,14 @@
 // Root default palette
 // -----------------------------------------------------------------------------
 
-:root {}
+:root {
+  --accent-100: #E6EEFF;
+  --accent-200: #C6D6FF;
+  --accent-300: #7FA0FF;
+  --accent-500: #4E7CF5;
+  --accent-700: #2B4DB3;
+  --accent-900: #173A8F;
+}
 
 
 
@@ -101,8 +108,9 @@
 // -----------------------------------------------------------------------------
 
 :root {
-  --accent: #2B4DB3;
-  --accent-strong: #4E7CF5;
+  --accent-default: #2B4DB3;
+  --accent-light: #4E7CF5;
+  --accent-dark: #173A8F;
 
   --text-primary: #000000;
   --text-secondary: #526077;
@@ -117,8 +125,9 @@
   --border-default: #E6EAF2;
 
   &.dark, &[data-theme="dark"] {
-    --accent: #7FA0FF;
-    --accent-strong: #4E7CF5;
+    --accent-default: #7FA0FF;
+    --accent-light: #4E7CF5;
+    --accent-dark: #2B4DB3;
 
     --text-primary: #F2F4F7;
     --text-secondary: #A7B0BF;

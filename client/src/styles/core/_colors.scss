@@ -8,8 +8,9 @@
 // Semantic palette (single public API for components)
 // -----------------------------------------------------------------------------
 
-$accent: var(--accent);
-$accent-strong: var(--accent-strong);
+$accent-default: var(--accent-default);
+$accent-light: var(--accent-light);
+$accent-dark: var(--accent-dark);
 
 $text-primary: var(--text-primary);
 $text-secondary: var(--text-secondary);
