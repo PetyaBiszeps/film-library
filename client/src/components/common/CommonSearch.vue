@@ -4,7 +4,9 @@ import BaseInput from '@/components/base/BaseInput.vue'
 import mocks from '@/content/mocks.ts'
 import {
   watch,
-  reactive
+  reactive,
+  onMounted,
+  onUnmounted
 } from 'vue'
 
   // Constants
@@ -23,14 +25,25 @@ const closeSearch = () => {
   state.query = ''
 }
 
-  // Vue properties
-watch(() => state.isSearching, async (visible) => {
-  if (visible) {
-    document.body.style.overflow = 'hidden'
-    document.getElementById('search-overlay-input')?.focus()
-  } else {
-    document.body.style.overflow = ''
+function onKeyEvent(e: KeyboardEvent) {
+  if (e.key === 'Escape') {
+    return closeSearch()
   }
+}
+
+  // Vue properties
+onMounted(() => {
+  window.addEventListener('keydown', onKeyEvent)
+})
+
+watch(() => state.isSearching, (isOpen) => {
+  if (isOpen) {
+    document.getElementById('search-overlay-input')?.focus()
+  }
+}, { flush: 'post' })
+
+onUnmounted(() => {
+  window.addEventListener('keydown', onKeyEvent)
 })
 </script>
 
@@ -47,7 +60,8 @@ watch(() => state.isSearching, async (visible) => {
       <input
         v-model="state.query"
 
-        name="search"
+        id="search-input"
+        name="search-input"
         type="text"
         placeholder="Title, cast, or keyword"
         readonly
