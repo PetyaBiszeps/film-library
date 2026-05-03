@@ -118,6 +118,23 @@ There are no third-party Go dependencies yet.
 - Prefer the standard library until a real need for a dependency appears.
 - Always run `gofmt` on changed Go files.
 
+## TMDB Integration
+
+- TMDB is the canonical external source for film data in this project.
+- The frontend should call the local Go API, not TMDB directly, for production-oriented features.
+- Keep TMDB credentials on the server only. Do not expose TMDB bearer tokens or API keys through `VITE_*` variables, client code, logs, commits, or screenshots.
+- Use server environment variables for TMDB configuration, for example `TMDB_API_BASE_URL=https://api.themoviedb.org/3`, `TMDB_IMAGE_BASE_URL=https://image.tmdb.org/t/p`, and `TMDB_BEARER_TOKEN`.
+- Add public placeholders to `.env.example` when introducing new TMDB environment variables, but never include real values.
+- Treat the Go server as a thin BFF/proxy over TMDB: request TMDB, normalize responses into project-owned DTOs, and return only the fields the client needs.
+- Prefer project-owned API routes such as `/movies/popular`, `/movies/search`, `/movies/{id}`, `/movies/{id}/credits`, and `/genres/movie` over leaking raw TMDB endpoint names into the client.
+- TMDB v3 requests commonly use `Authorization: Bearer <token>` and `Accept: application/json` headers.
+- Common TMDB endpoints likely needed first: `GET /movie/popular`, `GET /movie/top_rated`, `GET /movie/now_playing`, `GET /trending/movie/{time_window}`, `GET /search/movie`, `GET /movie/{movie_id}`, `GET /movie/{movie_id}/credits`, and `GET /genre/movie/list`.
+- TMDB paginated list responses usually include `page`, `results`, `total_pages`, and `total_results`; preserve pagination in backend DTOs when the UI needs infinite scroll or load-more behavior.
+- TMDB image fields such as `poster_path`, `backdrop_path`, and `profile_path` are relative paths. Build client-ready image URLs on the backend from `TMDB_IMAGE_BASE_URL`, size segments like `w342`, `w500`, `w780`, `original`, and the returned path.
+- TMDB movie IDs are external IDs. Keep them distinct from any future internal database IDs by naming fields clearly, for example `tmdbId`.
+- Use the backend as the place for response normalization, error mapping, request timeouts, and future caching/rate-limit handling.
+- Do not persist full raw TMDB responses unless there is a concrete need. Store only project-needed fields and external IDs.
+
 ## General Workflow Notes
 
 - This is a young codebase; prefer small, direct changes over abstractions.
