@@ -36,16 +36,24 @@ watch(() => state.isSearching, async (visible) => {
 
 <template>
   <div class="commonSearch">
-    <BaseInput
-      v-model="state.query"
-
-      name="search"
-      type="search"
-      placeholder="Title, cast, or keyword"
-      readonly
-
+    <button
+      class="commonSearch__trigger"
       @click="openSearch"
-    />
+    >
+      <span class="commonSearch__trigger__label">
+        Search
+      </span>
+
+      <input
+        v-model="state.query"
+
+        name="search"
+        type="text"
+        placeholder="Title, cast, or keyword"
+        readonly
+        class="commonSearch__trigger__input"
+      >
+    </button>
 
     <Teleport to="body">
       <Transition name="fade">

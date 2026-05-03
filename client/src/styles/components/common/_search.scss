@@ -3,6 +3,35 @@
 .commonSearch {
   width: 100%;
 
+  &__trigger {
+    gap: 32px;
+    width: 100%;
+    border: 1px solid $border-default;
+    display: flex;
+    padding: $padding-sm;
+    background: $bg-surface;
+    transition: $transition-base;
+    align-items: center;
+
+    &:hover {
+      border-color: $border-accent;
+    }
+
+    &__label {
+      color: $text-secondary;
+
+      @include sm-accent;
+    }
+
+    &__input {
+      &::placeholder {
+        color: $text-tertiary;
+      }
+
+      @include sm;
+    }
+  }
+
   &__overlay {
     inset: 0;
     z-index: 9;
