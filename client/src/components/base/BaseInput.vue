@@ -13,7 +13,7 @@ const {
   disabled = false,
   readonly = false,
   autocomplete = 'off',
-  size = 'md',
+  size = 'xs',
   variant = 'primary'
 } = defineProps<IBaseInput>()
 

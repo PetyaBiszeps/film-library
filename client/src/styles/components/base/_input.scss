@@ -1,3 +1,104 @@
 @use "../../resources.scss" as *;
 
-.baseInput {}
+.baseInput {
+  gap: 6px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  & > label {
+    color: $text-tertiary;
+    transition: $transition-base;
+
+    @include xs-accent;
+  }
+
+  & > input {
+    width: 100%;
+    color: $text-primary;
+    border: 1px solid $border-default;
+    background: $bg-surface;
+    transition: $transition-base;
+
+    &::placeholder {
+      color: $text-tertiary;
+      opacity: 1;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:read-only:not(:disabled) {
+      cursor: default;
+    }
+  }
+
+  &.primary {
+    & > input {
+      border-color: $border-default;
+      background-color: $bg-surface;
+    }
+  }
+
+  &.secondary {
+    & > input {
+      border-color: $border-accent;
+      background-color: $bg-accent;
+    }
+  }
+
+  &:focus-within {
+    & > label {
+      color: $accent-default;
+    }
+
+    & > input {
+      border-color: $accent-default;
+    }
+  }
+
+  &:has(input:disabled) {
+    opacity: 0.55;
+  }
+
+  &.xs {
+    & > input {
+      padding: $padding-xs;
+
+      @include xs;
+    }
+  }
+
+  &.sm {
+    & > input {
+      padding: $padding-sm;
+
+      @include sm;
+    }
+  }
+
+  &.md {
+    & > input {
+      padding: $padding-md;
+
+      @include sm;
+    }
+  }
+
+  &.lg {
+    & > input {
+      padding: $padding-lg;
+
+      @include body;
+    }
+  }
+
+  &.xl {
+    & > input {
+      padding: $padding-xl;
+
+      @include body;
+    }
+  }
+}
