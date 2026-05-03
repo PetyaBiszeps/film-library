@@ -1,0 +1,146 @@
+@use "../../resources.scss" as *;
+
+.commonSearch {
+  width: 100%;
+
+  &__overlay {
+    inset: 0;
+    z-index: 9;
+    display: flex;
+    padding: 16px;
+    position: fixed;
+    background: $bg-page;
+    flex-direction: column;
+
+    &__header {
+      gap: 12px;
+      display: flex;
+      align-items: center;
+      padding-bottom: 20px;
+    }
+
+    &__content {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+
+      &__caption {
+        color: $text-tertiary;
+        margin-bottom: 8px;
+
+        @include caption;
+      }
+
+      &__results {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        justify-content: space-between;
+
+        &__title {
+          @include h2;
+        }
+
+        &__count {
+          color: $text-tertiary;
+
+          @include xs;
+        }
+      }
+
+      &__list {
+        gap: 12px;
+        display: flex;
+        overflow: auto;
+        padding-bottom: 16px;
+        scrollbar-gutter: stable both-edges;
+        flex-direction: column;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: $border-accent;
+          border-radius: $border-radius-sm;
+        }
+
+        &__item {
+          gap: 12px;
+          border: 1px solid $border-default;
+          display: flex;
+          padding: 12px;
+          background: $bg-page;
+          align-items: center;
+
+          &__thumb {
+            width: 48px;
+            height: 64px;
+            background: $bg-surface;
+          }
+
+          &__info {
+            flex: 1;
+
+            &__title {
+              color: $text-primary;
+              overflow: hidden;
+              white-space: nowrap;
+              margin-bottom: 4px;
+              text-overflow: ellipsis;
+
+              @include h3;
+            }
+
+            &__details {
+              color: $text-tertiary;
+
+              @include xs;
+            }
+          }
+
+          &__rating {
+            color: $text-secondary;
+            border: 1px solid $border-accent;
+            padding: 2px 6px;
+
+            @include xs-accent;
+          }
+        }
+      }
+
+      &__recent {
+        border-top: 1px solid $border-default;
+        padding-top: 16px;
+        margin-bottom: 16px;
+
+        &__caption {
+          color: $text-tertiary;
+          margin-bottom: 8px;
+
+          @include caption;
+        }
+
+        &__tags {
+          gap: 8px;
+          display: flex;
+          flex-wrap: wrap;
+
+          &__item {
+            color: $text-primary;
+            border: 1px solid $border-default;
+            padding: $padding-xs;
+            background: $bg-surface;
+
+            @include xs;
+          }
+        }
+      }
+    }
+
+    &__footer {
+      padding-top: 8px;
+    }
+  }
+}

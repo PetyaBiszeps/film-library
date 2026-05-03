@@ -47,6 +47,15 @@
     }
   }
 
+  &.tertiary {
+    color: $accent-default;
+
+    &:not(:disabled):hover,
+    &:not(:disabled):active {
+      color: $accent-dark;
+    }
+  }
+
   &.none {
     padding: $padding-none;
 
