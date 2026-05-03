@@ -1,3 +1,155 @@
 @use "../../resources.scss" as *;
 
-.baseLink {}
+.baseLink {
+  gap: 8px;
+  width: 100%;
+  color: $text-secondary;
+  cursor: pointer;
+  border: 1px solid transparent;
+  display: inline-flex;
+  position: relative;
+  background: transparent;
+  transition: $transition-base;
+  user-select: none;
+  white-space: nowrap;
+  align-items: center;
+
+  &::before {
+    content: none;
+  }
+
+  &.primary {
+    color: $accent-default;
+    font-weight: var(--weight-medium);
+
+    &:hover {
+      color: $accent-light;
+    }
+
+    &.active {
+      color: $accent-default;
+      font-weight: var(--weight-semibold);
+      border-color: $border-accent;
+      background-color: $bg-accent;
+
+      &::before {
+        content: '';
+
+        flex: 0 0 3px;
+        width: 3px;
+        height: 14px;
+        display: block;
+        background-color: $accent-light;
+      }
+    }
+  }
+
+  &.secondary {
+    color: $text-secondary;
+    font-weight: var(--weight-regular);
+
+    &:hover {
+      color: $text-primary;
+    }
+
+    &.active {
+      color: $text-primary;
+      font-weight: var(--weight-medium);
+      border-color: $border-default;
+      background-color: $bg-surface;
+
+      &::before {
+        content: '';
+
+        flex: 0 0 3px;
+        width: 3px;
+        height: 14px;
+        display: block;
+        background-color: $text-tertiary;
+      }
+    }
+  }
+
+  &.tertiary {
+    gap: 4px;
+    color: $text-secondary;
+    align-items: center;
+    font-weight: var(--weight-regular);
+    flex-direction: column;
+    justify-content: center;
+
+    &::before {
+      content: '';
+
+      width: 18px;
+      height: 3px;
+      display: block;
+      background-color: $border-default;
+    }
+
+    &:hover {
+      color: $text-primary;
+      border-color: $border-default;
+      background-color: $bg-surface;
+
+      &::before {
+        background-color: $border-accent;
+      }
+    }
+
+    &.active {
+      color: $accent-default;
+      font-weight: var(--weight-semibold);
+      border-color: $border-accent;
+      background-color: $bg-accent;
+
+      &::before {
+        background-color: $accent-light;
+      }
+    }
+
+    @include xxs;
+  }
+
+  &.xs {
+    padding: $padding-xs;
+
+    @include xs;
+  }
+
+  &.sm {
+    padding: $padding-sm;
+
+    @include sm;
+  }
+
+  &.md {
+    padding: $padding-md;
+
+    @include body;
+  }
+
+  &.lg {
+    padding: $padding-lg;
+
+    @include body;
+  }
+
+  &.xl {
+    padding: $padding-xl;
+
+    @include body;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accent-default;
+    outline-offset: 1px;
+  }
+
+  &.disabled,
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+}

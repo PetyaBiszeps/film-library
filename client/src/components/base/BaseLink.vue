@@ -8,7 +8,7 @@ const {
   name = '',
   href,
   exact,
-  size = 'md',
+  size = 'sm',
   variant = 'primary'
 } = defineProps<IBaseLink>()
 

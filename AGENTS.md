@@ -14,7 +14,7 @@ This repository is a pet project for a film library. It is a monorepo with a Vue
 - `client/` contains the Vite frontend.
 - `server/` contains the Go API.
 - `scripts/dev.sh` starts the backend if `server/cmd/api/main.go` exists and then starts the frontend.
-- `client/film-library.pen` is a design file and is ignored by git via `*.pen`.
+- `film-library.pen` is a design file and is ignored by git via `*.pen`.
 
 ## Root Commands
 
