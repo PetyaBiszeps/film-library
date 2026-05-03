@@ -1,8 +1,8 @@
 <script setup lang="ts">
 // import NavigationSidebar from '@/components/app/navigation/NavigationSidebar.vue'
-import NavigationBar from '@/components/app/navigation/NavigationBar.vue'
+import NavigationDock from '@/components/app/navigation/NavigationDock.vue'
 </script>
 
 <template>
-  <NavigationBar />
+  <NavigationDock />
 </template>

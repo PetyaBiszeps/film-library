@@ -5,14 +5,14 @@ import BaseLink from '@/components/base/BaseLink.vue'
 
 <template>
   <nav
-    class="navbar"
+    class="dock"
     :aria-label="`${NavigationContent.brand.title} mobile navigation`"
   >
-    <ul class="navbar__list">
+    <ul class="dock__list">
       <li
         v-for="tab in NavigationContent.tabs"
         :key="tab.name"
-        class="navbar__list__item"
+        class="dock__list__item"
       >
         <BaseLink
           :name="tab.name"
