@@ -11,7 +11,7 @@
 
 # Working directories
 .DS_Store
-/dist
+dist/*
 
 # Environment variables
 .env
