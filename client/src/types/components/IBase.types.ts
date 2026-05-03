@@ -5,6 +5,14 @@ export interface IBaseButton {
   variant?: 'primary' | 'secondary'
 }
 
+export interface IBaseLink {
+  name?: string
+  href: string
+  exact?: boolean
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  variant?: 'primary' | 'secondary' | 'tertiary'
+}
+
 export interface IBaseInput {
   id?: string
   name: string
@@ -14,14 +22,6 @@ export interface IBaseInput {
   disabled?: boolean
   readonly?: boolean
   autocomplete?: string
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  variant?: 'primary' | 'secondary'
-}
-
-export interface IBaseLink {
-  name?: string
-  href: string
-  exact?: boolean
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   variant?: 'primary' | 'secondary'
 }
