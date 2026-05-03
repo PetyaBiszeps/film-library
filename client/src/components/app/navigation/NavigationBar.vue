@@ -10,13 +10,14 @@ import BaseLink from '@/components/base/BaseLink.vue'
   >
     <ul class="navbar__list">
       <li
-        v-for="item in NavigationContent.main"
-        :key="item.key"
+        v-for="tab in NavigationContent.tabs"
+        :key="tab.name"
         class="navbar__list__item"
       >
         <BaseLink
-          :name="item.label"
-          :href="''"
+          :name="tab.name"
+          :href="tab.href"
+          :exact="true"
 
           size="sm"
           variant="tertiary"

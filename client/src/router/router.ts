@@ -13,8 +13,20 @@ const router = createRouter({
     },
     children: [{
       path: '',
-      name: 'library',
-      component: () => import('@/views/LibraryView.vue')
+      name: 'Home',
+      component: () => import('@/views/HomeView.vue')
+    }, {
+      path: '/bookmarks',
+      name: 'Bookmarks',
+      component: () => import('@/views/BookmarksView.vue')
+    }, {
+      path: '/collections',
+      name: 'Collections',
+      component: () => import('@/views/CollectionsView.vue')
+    }, {
+      path: '/history',
+      name: 'History',
+      component: () => import('@/views/HistoryView.vue')
     }]
   }]
 })

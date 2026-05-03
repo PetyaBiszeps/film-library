@@ -2,17 +2,17 @@ export default {
   brand: {
     title: 'Flicks'
   },
-  main: [{
-    key: 'library',
-    label: 'Library'
+  tabs: [{
+    name: 'Home',
+    href: '/'
   }, {
-    key: 'watchlist',
-    label: 'Watchlist'
+    name: 'Bookmarks',
+    href: '/bookmarks'
   }, {
-    key: 'lists',
-    label: 'Lists'
+    name: 'Collections',
+    href: '/collections'
   }, {
-    key: 'history',
-    label: 'History'
+    name: 'History',
+    href: '/history'
   }]
 } as const
