@@ -1,3 +1,15 @@
 @use "../resources.scss" as *;
 
-.home {}
+.home {
+  gap: 32px;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // &__main {}
+}
