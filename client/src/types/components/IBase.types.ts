@@ -25,3 +25,11 @@ export interface IBaseInput {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   variant?: 'primary' | 'secondary'
 }
+
+export interface IBaseIcon {
+  src: string
+  size?: {
+    x: string
+    y: string
+  }
+}

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NAV_CONTENT from '@/content/Navigation.content.ts'
 import BaseButton from '@/components/base/BaseButton.vue'
+// import BaseIcon from '@/components/base/BaseIcon.vue'
 </script>
 
 <template>
