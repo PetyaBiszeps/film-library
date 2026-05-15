@@ -1,6 +1,13 @@
+import filterIcon from '@/assets/svgs/filter.svg'
+import userIcon from '@/assets/svgs/user.svg'
+
 export default {
   brand: {
     title: 'Flicks'
+  },
+  actions: {
+    filter: filterIcon,
+    user: userIcon
   },
   tabs: [{
     name: 'Home',

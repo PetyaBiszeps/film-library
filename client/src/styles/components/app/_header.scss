@@ -1,6 +1,27 @@
 @use "../../resources.scss" as *;
 
 .header {
+  &__nav {
+    gap: 48px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &__title {
+      @include h2;
+    }
+
+    &__list {
+      gap: 8px;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+
+      // &__item {}
+    }
+  }
+
   @include laptop {
     display: none;
   }
