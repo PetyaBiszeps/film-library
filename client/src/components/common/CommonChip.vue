@@ -6,7 +6,6 @@ import type {
 
 const {
   label,
-  tone = 'gray',
   active = false,
   disabled = false
 } = defineProps<ICommonChip>()
@@ -26,10 +25,11 @@ function handleClick(e: PointerEvent): void {
 
 <template>
   <BaseButton
-    size="sm"
-    variant="tertiary"
+    :size="'sm'"
+    :variant="'tertiary'"
+    :disabled="disabled"
 
-    :class="['commonChip', `tone-${tone}`, {
+    :class="['commonChip', {
       active: active
     }]"
     @click="handleClick"

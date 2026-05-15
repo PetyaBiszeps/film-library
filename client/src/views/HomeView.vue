@@ -19,7 +19,7 @@ import HOME_CONTENT from '@/content/home.ts'
 
       <CommonSearch />
 
-      <CommonChip />
+      <CommonChip label="Recommended" />
     </header>
 
     <main class="home__main">

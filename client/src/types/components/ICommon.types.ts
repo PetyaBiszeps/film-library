@@ -11,7 +11,6 @@ export interface ICommonCard {
 
 export interface ICommonChip {
   label: string
-  tone?: 'blue' | 'orange' | 'gray'
   active?: boolean
   disabled?: boolean
 }

@@ -1,5 +1,20 @@
 @use "../../resources.scss" as *;
 
 .commonChip {
-  &__square {}
+  gap: 6px;
+  color: $text-secondary !important;
+
+  &__square {
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+  }
+
+  &:not(:disabled):hover {
+    color: $accent-light !important;
+  }
+
+  &:not(:disabled):active, &.active {
+    color: $accent-default !important;
+  }
 }
