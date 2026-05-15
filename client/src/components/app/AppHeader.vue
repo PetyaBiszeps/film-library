@@ -15,7 +15,7 @@ import BaseButton from '@/components/base/BaseButton.vue'
         <li class="header__nav__list__item">
           <BaseButton
             size="sm"
-            variant="secondary"
+            variant="tertiary"
           >
             F
           </BaseButton>
@@ -24,7 +24,7 @@ import BaseButton from '@/components/base/BaseButton.vue'
         <li class="header__nav__list__item">
           <BaseButton
             size="sm"
-            variant="secondary"
+            variant="tertiary"
           >
             U
           </BaseButton>

@@ -48,6 +48,24 @@
   }
 
   &.tertiary {
+    color: $accent-dark;
+    border-color: $border-default;
+    background-color: $bg-surface;
+
+    &:not(:disabled):hover {
+      color: $accent-dark;
+      border-color: $border-accent;
+      background-color: $bg-accent;
+    }
+
+    &:not(:disabled):active {
+      color: $accent-dark;
+      border-color: $border-accent;
+      background-color: $bg-accent;
+    }
+  }
+
+  &.quaternary {
     color: $accent-default;
 
     &:not(:disabled):hover,

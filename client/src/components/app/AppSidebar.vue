@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NavigationContent from '@/content/Navigation.content.js'
+import NavigationContent from '@/content/Navigation.content.ts'
 </script>
 
 <template>

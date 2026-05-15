@@ -43,7 +43,7 @@ watch(() => state.isSearching, (isOpen) => {
 }, { flush: 'post' })
 
 onUnmounted(() => {
-  window.addEventListener('keydown', onKeyEvent)
+  window.removeEventListener('keydown', onKeyEvent)
 })
 </script>
 
@@ -78,7 +78,7 @@ onUnmounted(() => {
           <header class="commonSearch__overlay__header">
             <BaseButton
               size="sm"
-              variant="tertiary"
+              variant="quaternary"
               @click="closeSearch"
             >
               Back
@@ -96,7 +96,7 @@ onUnmounted(() => {
 
             <BaseButton
               size="sm"
-              variant="tertiary"
+              variant="quaternary"
               @click="closeSearch"
             >
               Cancel

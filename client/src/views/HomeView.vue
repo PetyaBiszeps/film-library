@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CommonSearch from '@/components/common/CommonSearch.vue'
+import CommonChip from '@/components/common/CommonChip.vue'
 import HOME_CONTENT from '@/content/home.ts'
 </script>
 
@@ -17,6 +18,8 @@ import HOME_CONTENT from '@/content/home.ts'
       </div>
 
       <CommonSearch />
+
+      <CommonChip />
     </header>
 
     <main class="home__main">

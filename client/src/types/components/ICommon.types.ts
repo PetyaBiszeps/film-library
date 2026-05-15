@@ -8,3 +8,10 @@ export interface ICommonCard {
   posterAlt?: string
   disabled?: boolean
 }
+
+export interface ICommonChip {
+  label: string
+  tone?: 'blue' | 'orange' | 'gray'
+  active?: boolean
+  disabled?: boolean
+}
