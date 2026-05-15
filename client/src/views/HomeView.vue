@@ -7,8 +7,13 @@ import HOME_CONTENT from '@/content/home.ts'
   <section class="home">
     <header class="home__header">
       <div class="home__header__text">
-        <h1>{{ HOME_CONTENT.header.title }}</h1>
-        <p>{{ HOME_CONTENT.header.description }}</p>
+        <h1 class="home__header__text__title">
+          {{ HOME_CONTENT.header.title }}
+        </h1>
+
+        <p class="home__header__text__caption">
+          {{ HOME_CONTENT.header.description }}
+        </p>
       </div>
 
       <CommonSearch />
