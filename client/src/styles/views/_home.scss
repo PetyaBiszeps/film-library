@@ -40,5 +40,38 @@
     }
   }
 
-  // &__main {}
+  &__main {
+    display: flex;
+    flex-direction: column;
+
+    &__recommended {
+      gap: 12px;
+      display: flex;
+      flex-direction: column;
+
+      &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &__title {
+          color: $text-primary;
+
+          @include h4;
+        }
+
+        &__meta {
+          color: $text-tertiary;
+
+          @include xs;
+        }
+      }
+
+      &__main {
+        gap: 16px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      }
+    }
+  }
 }
