@@ -3,6 +3,7 @@ export interface IBaseButton {
   disabled?: boolean
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   variant?: 'primary' | 'secondary' | 'tertiary' | 'quaternary'
+  href?: string
 }
 
 export interface IBaseLink {
