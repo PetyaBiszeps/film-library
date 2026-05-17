@@ -19,6 +19,25 @@
         @include caption;
       }
     }
+
+    &__filters {
+      gap: 8px;
+      display: flex;
+      flex-direction: column;
+
+      &__header {
+        &__caption {
+          @include caption;
+        }
+      }
+
+      &__main {
+        gap: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+      }
+    }
   }
 
   // &__main {}
