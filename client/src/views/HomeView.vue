@@ -19,7 +19,21 @@ import HOME_CONTENT from '@/content/home.ts'
 
       <CommonSearch />
 
-      <CommonChip label="Recommended" />
+      <section class="home__header__filters">
+        <header class="home__header__filters__header">
+          <p class="home__header__filters__header__title">
+            {{ HOME_CONTENT.main.filters.title }}
+          </p>
+        </header>
+
+        <main class="home__header__filters__main">
+          <CommonChip
+            v-for="item in HOME_CONTENT.main.filters.items"
+            :key="item.key"
+            :label="item.label"
+          />
+        </main>
+      </section>
     </header>
 
     <main class="home__main">
