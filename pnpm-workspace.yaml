@@ -1,2 +1,4 @@
 packages:
   - client
+allowBuilds:
+  '@parcel/watcher': true
