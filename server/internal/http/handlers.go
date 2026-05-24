@@ -5,12 +5,15 @@ import (
 	"encoding/json"
 	"errors"
 	nethttp "net/http"
+	"strconv"
+	"strings"
 
 	"film-library/server/internal/movies"
 )
 
 type MovieService interface {
 	PopularMovies(ctx context.Context) (movies.MovieListResponse, error)
+	SearchMovies(ctx context.Context, query string, page int) (movies.MovieListResponse, error)
 }
 
 type errorResponse struct {
@@ -32,6 +35,37 @@ func PopularMovies(movieService MovieService) nethttp.HandlerFunc {
 
 		if err != nil {
 			writeJSON(w, nethttp.StatusBadGateway, errorResponse{Error: "Failed to fetch popular movies"})
+			return
+		}
+
+		writeJSON(w, nethttp.StatusOK, response)
+	}
+}
+
+func SearchMovies(movieService MovieService) nethttp.HandlerFunc {
+	return func(w nethttp.ResponseWriter, r *nethttp.Request) {
+		query := strings.TrimSpace(r.URL.Query().Get("query"))
+		if query == "" {
+			writeJSON(w, nethttp.StatusBadRequest, errorResponse{Error: "Query is required"})
+			return
+		}
+
+		page := 1
+		if value := r.URL.Query().Get("page"); value != "" {
+			parsedPage, err := strconv.Atoi(value)
+			if err == nil && parsedPage > 0 {
+				page = parsedPage
+			}
+		}
+
+		response, err := movieService.SearchMovies(r.Context(), query, page)
+		if errors.Is(err, movies.ErrTMDBNotConfigured) {
+			writeJSON(w, nethttp.StatusInternalServerError, errorResponse{Error: "TMDB is not configured"})
+			return
+		}
+
+		if err != nil {
+			writeJSON(w, nethttp.StatusBadGateway, errorResponse{Error: "Failed to search movies"})
 			return
 		}
 

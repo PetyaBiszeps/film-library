@@ -7,18 +7,16 @@ import BaseInput from '@/components/base/BaseInput.vue'
 import useMovies from '@/composables/useMovies.ts'
 import HOME_CONTENT from '@/content/home.ts'
 import {
-  ref,
   onMounted
 } from 'vue'
 
   // Init
 const {
-  movies, hasMovies, isLoading, errorMessage, moviesMeta,
-  fetchPopularMovies
+  movies, hasMovies, isLoading, errorMessage, searchQuery, moviesMeta, isSearchActive,
+  fetchPopularMovies, fetchSearchMovies
 } = useMovies()
 
   // Constants
-const searchQuery = ref<string>('')
 const sortItems = [{
   key: 'recommended',
   label: 'Recommended',
@@ -63,6 +61,7 @@ onMounted(() => {
           placeholder="Search title, cast, or keyword"
           class="home__header__actions__search"
           style="width: 220px;"
+          @keydown.enter="fetchSearchMovies(searchQuery)"
         />
 
         <CommonDropdown
@@ -73,7 +72,10 @@ onMounted(() => {
         />
       </div>
 
-      <CommonSearch />
+      <CommonSearch
+        v-model="searchQuery"
+        @search="fetchSearchMovies"
+      />
 
       <section class="home__header__filters">
         <header class="home__header__filters__header">
@@ -96,7 +98,7 @@ onMounted(() => {
       <section class="home__main__recommended">
         <header class="home__main__recommended__header">
           <h2 class="home__main__recommended__header__title">
-            {{ HOME_CONTENT.main.recommended.title }}
+            {{ isSearchActive ? 'Search results' : HOME_CONTENT.main.recommended.title }}
           </h2>
 
           <p class="home__main__recommended__header__meta">

@@ -1,4 +1,7 @@
-import { getPopularMovies } from '@/api/movies.ts'
+import {
+  getPopularMovies,
+  searchMovies
+} from '@/api/movies.ts'
 import { ref, computed } from 'vue'
 import type {
   IMovie
@@ -9,8 +12,14 @@ export default () => {
   const totalResults = ref<number>(0)
   const isLoading = ref<boolean>(false)
   const errorMessage = ref<string>('')
+  const searchQuery = ref<string>('')
   const hasMovies = computed<boolean>(() => movies.value.length > 0)
   const moviesMeta = computed<string>(() => `${totalResults.value} movies`)
+  const isSearchActive = computed<boolean>(() => searchQuery.value.trim() !== '')
+
+  const setSearchQuery = (value: string): void => {
+    searchQuery.value = value
+  }
 
   const fetchPopularMovies = async (): Promise<void> => {
     isLoading.value = true
@@ -30,13 +39,50 @@ export default () => {
     }
   }
 
+  const fetchSearchMovies = async (query = searchQuery.value, page = 1): Promise<void> => {
+    const trimmedQuery = query.trim()
+
+    if (!trimmedQuery) {
+      searchQuery.value = ''
+      await fetchPopularMovies()
+      return
+    }
+
+    searchQuery.value = trimmedQuery
+    isLoading.value = true
+    errorMessage.value = ''
+
+    try {
+      const response = await searchMovies(trimmedQuery, page)
+
+      movies.value = response.results
+      totalResults.value = response.totalResults
+    } catch {
+      movies.value = []
+      totalResults.value = 0
+      errorMessage.value = 'Failed to search movies.'
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  const clearSearch = async (): Promise<void> => {
+    searchQuery.value = ''
+    await fetchPopularMovies()
+  }
+
   return {
     movies,
     totalResults,
     isLoading,
     errorMessage,
+    searchQuery,
     hasMovies,
     moviesMeta,
-    fetchPopularMovies
+    isSearchActive,
+    setSearchQuery,
+    fetchPopularMovies,
+    fetchSearchMovies,
+    clearSearch
   }
 }

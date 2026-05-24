@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -68,6 +69,43 @@ func (c *Client) PopularMovies(ctx context.Context) (MovieListResponse, error) {
 	var tmdbResponse TMDBMovieListResponse
 	if err := json.NewDecoder(response.Body).Decode(&tmdbResponse); err != nil {
 		return MovieListResponse{}, fmt.Errorf("decode tmdb popular movies: %w", err)
+	}
+
+	return MapTMDBMovieListResponse(tmdbResponse, c.imageBaseURL, defaultPosterSize, nil), nil
+}
+
+func (c *Client) SearchMovies(ctx context.Context, query string, page int) (MovieListResponse, error) {
+	if strings.TrimSpace(c.bearerToken) == "" {
+		return MovieListResponse{}, ErrTMDBNotConfigured
+	}
+
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.TrimRight(c.apiBaseURL, "/")+"/search/movie", nil)
+	if err != nil {
+		return MovieListResponse{}, fmt.Errorf("create tmdb search request: %w", err)
+	}
+
+	params := request.URL.Query()
+	params.Set("query", query)
+	params.Set("page", strconv.Itoa(page))
+	params.Set("include_adult", "false")
+	request.URL.RawQuery = params.Encode()
+
+	request.Header.Set("Authorization", "Bearer "+c.bearerToken)
+	request.Header.Set("Accept", "application/json")
+
+	response, err := c.httpClient.Do(request)
+	if err != nil {
+		return MovieListResponse{}, fmt.Errorf("search movies: %w", err)
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode < http.StatusOK || response.StatusCode >= http.StatusMultipleChoices {
+		return MovieListResponse{}, fmt.Errorf("tmdb returned status %d", response.StatusCode)
+	}
+
+	var tmdbResponse TMDBMovieListResponse
+	if err := json.NewDecoder(response.Body).Decode(&tmdbResponse); err != nil {
+		return MovieListResponse{}, fmt.Errorf("decode tmdb search movies: %w", err)
 	}
 
 	return MapTMDBMovieListResponse(tmdbResponse, c.imageBaseURL, defaultPosterSize, nil), nil

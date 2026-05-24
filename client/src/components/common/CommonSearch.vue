@@ -9,9 +9,16 @@ import {
   onUnmounted
 } from 'vue'
 
+const emit = defineEmits<{
+  (e: 'search', value: string): void
+}>()
+
+const model = defineModel<string>({
+  default: ''
+})
+
   // Constants
 const state = reactive({
-  query: '',
   isSearching: false
 })
 
@@ -22,7 +29,13 @@ const openSearch = () => {
 
 const closeSearch = () => {
   state.isSearching = false
-  state.query = ''
+  model.value = ''
+  emit('search', '')
+}
+
+const submitSearch = () => {
+  state.isSearching = false
+  emit('search', model.value)
 }
 
 function onKeyEvent(e: KeyboardEvent) {
@@ -58,7 +71,7 @@ onUnmounted(() => {
       </span>
 
       <input
-        v-model="state.query"
+        v-model="model"
 
         id="search-input"
         name="search-input"
@@ -85,13 +98,14 @@ onUnmounted(() => {
             </BaseButton>
 
             <BaseInput
-              v-model="state.query"
+              v-model="model"
 
               id="search-overlay-input"
               name="search-overlay-input"
               type="search"
               placeholder="Search..."
               size="sm"
+              @keydown.enter="submitSearch"
             />
 
             <BaseButton
@@ -162,7 +176,7 @@ onUnmounted(() => {
           <footer class="commonSearch__overlay__footer">
             <BaseButton
               style="width: 100%;"
-              @click="null"
+              @click="submitSearch"
             >
               View all results
             </BaseButton>
