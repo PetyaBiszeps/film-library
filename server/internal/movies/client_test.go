@@ -248,3 +248,114 @@ func TestClientDiscoverMoviesReturnsUnsupportedSortError(t *testing.T) {
 		t.Fatalf("expected ErrUnsupportedSortOption, got %v", err)
 	}
 }
+
+func TestClientFetchFeedSendsExpectedTMDBRequests(t *testing.T) {
+	tests := []struct {
+		name          string
+		feedType      string
+		wantPath      string
+		wantSortBy    string
+		wantAdult     string
+		wantVoteCount string
+	}{
+		{name: "default", feedType: "", wantPath: "/discover/movie", wantSortBy: "popularity.desc", wantAdult: "false"},
+		{name: "recommended", feedType: "recommended", wantPath: "/discover/movie", wantSortBy: "popularity.desc", wantAdult: "false"},
+		{name: "trending", feedType: "trending", wantPath: "/trending/movie/week"},
+		{name: "new", feedType: "new", wantPath: "/discover/movie", wantSortBy: "primary_release_date.desc", wantAdult: "false", wantVoteCount: "10"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != test.wantPath {
+					t.Fatalf("expected path %s, got %s", test.wantPath, r.URL.Path)
+				}
+
+				if r.URL.Query().Get("page") != "2" {
+					t.Fatalf("expected page 2, got %s", r.URL.Query().Get("page"))
+				}
+
+				if r.URL.Query().Get("sort_by") != test.wantSortBy {
+					t.Fatalf("expected sort_by %s, got %s", test.wantSortBy, r.URL.Query().Get("sort_by"))
+				}
+
+				if r.URL.Query().Get("include_adult") != test.wantAdult {
+					t.Fatalf("expected include_adult %s, got %s", test.wantAdult, r.URL.Query().Get("include_adult"))
+				}
+
+				if r.URL.Query().Get("vote_count.gte") != test.wantVoteCount {
+					t.Fatalf("expected vote_count.gte %s, got %s", test.wantVoteCount, r.URL.Query().Get("vote_count.gte"))
+				}
+
+				if r.Header.Get("Authorization") != "Bearer test-token" {
+					t.Fatalf("unexpected authorization header")
+				}
+
+				response := TMDBMovieListResponse{
+					Page: 2,
+					Results: []TMDBMovieSummary{
+						{ID: 16, Title: "Feed Movie", ReleaseDate: "2024-04-05", PosterPath: "/feed.jpg", VoteAverage: 7.9},
+					},
+					TotalPages:   4,
+					TotalResults: 61,
+				}
+
+				w.Header().Set("Content-Type", "application/json")
+				if err := json.NewEncoder(w).Encode(response); err != nil {
+					t.Fatalf("encode response: %v", err)
+				}
+			}))
+			t.Cleanup(server.Close)
+
+			client := NewTMDBClient(ClientConfig{
+				APIBaseURL:   server.URL,
+				ImageBaseURL: "https://image.tmdb.org/t/p",
+				BearerToken:  "test-token",
+			})
+
+			response, err := client.FetchFeed(context.Background(), test.feedType, 2)
+			if err != nil {
+				t.Fatalf("expected no error, got %v", err)
+			}
+
+			if response.Page != 2 || response.TotalPages != 4 || response.TotalResults != 61 {
+				t.Fatalf("unexpected pagination: %+v", response)
+			}
+
+			if len(response.Results) != 1 {
+				t.Fatalf("expected 1 result, got %d", len(response.Results))
+			}
+
+			movie := response.Results[0]
+			if movie.ID != 16 || movie.TMDBID != 16 || movie.Title != "Feed Movie" || movie.Year != "2024" || movie.PosterURL != "https://image.tmdb.org/t/p/w342/feed.jpg" || movie.Rating != 7.9 {
+				t.Fatalf("unexpected movie mapping: %+v", movie)
+			}
+		})
+	}
+}
+
+func TestClientFetchFeedReturnsFeedErrors(t *testing.T) {
+	tests := []struct {
+		name     string
+		feedType string
+		wantErr  error
+	}{
+		{name: "recently added", feedType: "recently-added", wantErr: ErrFeedNotImplemented},
+		{name: "friends watched", feedType: "friends-watched", wantErr: ErrFeedNotImplemented},
+		{name: "unknown", feedType: "unknown", wantErr: ErrUnsupportedFeedType},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			client := NewTMDBClient(ClientConfig{
+				APIBaseURL:  "https://example.com",
+				BearerToken: "test-token",
+			})
+
+			_, err := client.FetchFeed(context.Background(), test.feedType, 1)
+			if !errors.Is(err, test.wantErr) {
+				t.Fatalf("expected %v, got %v", test.wantErr, err)
+			}
+		})
+	}
+}

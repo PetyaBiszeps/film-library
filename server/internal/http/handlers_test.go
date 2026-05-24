@@ -15,6 +15,7 @@ type failingMovieService struct {
 	popularErr  error
 	searchErr   error
 	discoverErr error
+	feedErr     error
 }
 
 func (s failingMovieService) PopularMovies(ctx context.Context) (movies.MovieListResponse, error) {
@@ -29,9 +30,14 @@ func (s failingMovieService) DiscoverMovies(ctx context.Context, sortBy string, 
 	return movies.MovieListResponse{}, s.discoverErr
 }
 
+func (s failingMovieService) FetchFeed(ctx context.Context, feedType string, page int) (movies.MovieListResponse, error) {
+	return movies.MovieListResponse{}, s.feedErr
+}
+
 type searchMovieService struct {
 	query  string
 	sortBy string
+	feed   string
 	page   int
 }
 
@@ -64,6 +70,20 @@ func (s *searchMovieService) DiscoverMovies(ctx context.Context, sortBy string, 
 		},
 		TotalPages:   2,
 		TotalResults: 20,
+	}, nil
+}
+
+func (s *searchMovieService) FetchFeed(ctx context.Context, feedType string, page int) (movies.MovieListResponse, error) {
+	s.feed = feedType
+	s.page = page
+
+	return movies.MovieListResponse{
+		Page: page,
+		Results: []movies.MovieSummary{
+			{ID: 3, TMDBID: 3, Title: "Feed Movie", Year: "2024", PosterURL: "https://image.tmdb.org/t/p/w342/feed.jpg", Rating: 7.9},
+		},
+		TotalPages:   3,
+		TotalResults: 30,
 	}, nil
 }
 
@@ -259,6 +279,135 @@ func TestDiscoverMoviesReturnsBadGatewayError(t *testing.T) {
 	}
 
 	if strings.TrimSpace(response.Body.String()) != `{"error":"Failed to discover movies"}` {
+		t.Fatalf("unexpected response body: %s", response.Body.String())
+	}
+}
+
+func TestMovieFeedDefaultsInvalidPageToOne(t *testing.T) {
+	service := &searchMovieService{}
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/feed?type=trending&page=bad", nil)
+	response := httptest.NewRecorder()
+
+	MovieFeed(service)(response, request)
+
+	if response.Code != nethttp.StatusOK {
+		t.Fatalf("expected status 200, got %d", response.Code)
+	}
+
+	if service.feed != "trending" {
+		t.Fatalf("expected trending feed, got %s", service.feed)
+	}
+
+	if service.page != 1 {
+		t.Fatalf("expected page 1, got %d", service.page)
+	}
+}
+
+func TestMovieFeedDefaultsEmptyTypeToRecommended(t *testing.T) {
+	service := &searchMovieService{}
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/feed", nil)
+	response := httptest.NewRecorder()
+
+	MovieFeed(service)(response, request)
+
+	if response.Code != nethttp.StatusOK {
+		t.Fatalf("expected status 200, got %d", response.Code)
+	}
+
+	if service.feed != "" {
+		t.Fatalf("expected empty feed type, got %s", service.feed)
+	}
+
+	if service.page != 1 {
+		t.Fatalf("expected page 1, got %d", service.page)
+	}
+}
+
+func TestMovieFeedReturnsMappedJSONResponse(t *testing.T) {
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/feed?type=new&page=2", nil)
+	response := httptest.NewRecorder()
+
+	MovieFeed(&searchMovieService{})(response, request)
+
+	if response.Code != nethttp.StatusOK {
+		t.Fatalf("expected status 200, got %d", response.Code)
+	}
+
+	expected := `{"page":2,"results":[{"id":3,"tmdbId":3,"title":"Feed Movie","year":"2024","posterUrl":"https://image.tmdb.org/t/p/w342/feed.jpg","rating":7.9}],"totalPages":3,"totalResults":30}`
+	if strings.TrimSpace(response.Body.String()) != expected {
+		t.Fatalf("unexpected response body: %s", response.Body.String())
+	}
+}
+
+func TestMovieFeedReturnsNotImplementedErrors(t *testing.T) {
+	tests := []struct {
+		name     string
+		feedType string
+		wantBody string
+	}{
+		{name: "recently added", feedType: "recently-added", wantBody: `{"error":"Recently added feed is not implemented"}`},
+		{name: "friends watched", feedType: "friends-watched", wantBody: `{"error":"Friends watched feed is not implemented"}`},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			request := httptest.NewRequest(nethttp.MethodGet, "/movies/feed?type="+test.feedType, nil)
+			response := httptest.NewRecorder()
+
+			MovieFeed(failingMovieService{feedErr: movies.ErrFeedNotImplemented})(response, request)
+
+			if response.Code != nethttp.StatusNotImplemented {
+				t.Fatalf("expected status 501, got %d", response.Code)
+			}
+
+			if strings.TrimSpace(response.Body.String()) != test.wantBody {
+				t.Fatalf("unexpected response body: %s", response.Body.String())
+			}
+		})
+	}
+}
+
+func TestMovieFeedReturnsUnsupportedTypeError(t *testing.T) {
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/feed?type=unknown", nil)
+	response := httptest.NewRecorder()
+
+	MovieFeed(failingMovieService{feedErr: movies.ErrUnsupportedFeedType})(response, request)
+
+	if response.Code != nethttp.StatusBadRequest {
+		t.Fatalf("expected status 400, got %d", response.Code)
+	}
+
+	if strings.TrimSpace(response.Body.String()) != `{"error":"Unsupported feed type"}` {
+		t.Fatalf("unexpected response body: %s", response.Body.String())
+	}
+}
+
+func TestMovieFeedReturnsConfigurationError(t *testing.T) {
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/feed?type=trending", nil)
+	response := httptest.NewRecorder()
+
+	MovieFeed(failingMovieService{feedErr: movies.ErrTMDBNotConfigured})(response, request)
+
+	if response.Code != nethttp.StatusInternalServerError {
+		t.Fatalf("expected status 500, got %d", response.Code)
+	}
+
+	if strings.TrimSpace(response.Body.String()) != `{"error":"TMDB is not configured"}` {
+		t.Fatalf("unexpected response body: %s", response.Body.String())
+	}
+}
+
+func TestMovieFeedReturnsBadGatewayError(t *testing.T) {
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/feed?type=trending", nil)
+	response := httptest.NewRecorder()
+
+	MovieFeed(failingMovieService{feedErr: errors.New("tmdb failed")})(response, request)
+
+	if response.Code != nethttp.StatusBadGateway {
+		t.Fatalf("expected status 502, got %d", response.Code)
+	}
+
+	if strings.TrimSpace(response.Body.String()) != `{"error":"Failed to fetch movie feed"}` {
 		t.Fatalf("unexpected response body: %s", response.Body.String())
 	}
 }

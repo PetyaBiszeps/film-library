@@ -15,6 +15,7 @@ type MovieService interface {
 	PopularMovies(ctx context.Context) (movies.MovieListResponse, error)
 	SearchMovies(ctx context.Context, query string, page int) (movies.MovieListResponse, error)
 	DiscoverMovies(ctx context.Context, sortBy string, page int) (movies.MovieListResponse, error)
+	FetchFeed(ctx context.Context, feedType string, page int) (movies.MovieListResponse, error)
 }
 
 type errorResponse struct {
@@ -98,6 +99,49 @@ func DiscoverMovies(movieService MovieService) nethttp.HandlerFunc {
 
 		if err != nil {
 			writeJSON(w, nethttp.StatusBadGateway, errorResponse{Error: "Failed to discover movies"})
+			return
+		}
+
+		writeJSON(w, nethttp.StatusOK, response)
+	}
+}
+
+func MovieFeed(movieService MovieService) nethttp.HandlerFunc {
+	return func(w nethttp.ResponseWriter, r *nethttp.Request) {
+		feedType := strings.TrimSpace(r.URL.Query().Get("type"))
+		page := 1
+		if value := r.URL.Query().Get("page"); value != "" {
+			parsedPage, err := strconv.Atoi(value)
+			if err == nil && parsedPage > 0 {
+				page = parsedPage
+			}
+		}
+
+		response, err := movieService.FetchFeed(r.Context(), feedType, page)
+		if errors.Is(err, movies.ErrUnsupportedFeedType) {
+			writeJSON(w, nethttp.StatusBadRequest, errorResponse{Error: "Unsupported feed type"})
+			return
+		}
+
+		if errors.Is(err, movies.ErrFeedNotImplemented) {
+			switch feedType {
+			case "recently-added":
+				writeJSON(w, nethttp.StatusNotImplemented, errorResponse{Error: "Recently added feed is not implemented"})
+			case "friends-watched":
+				writeJSON(w, nethttp.StatusNotImplemented, errorResponse{Error: "Friends watched feed is not implemented"})
+			default:
+				writeJSON(w, nethttp.StatusNotImplemented, errorResponse{Error: "Movie feed is not implemented"})
+			}
+			return
+		}
+
+		if errors.Is(err, movies.ErrTMDBNotConfigured) {
+			writeJSON(w, nethttp.StatusInternalServerError, errorResponse{Error: "TMDB is not configured"})
+			return
+		}
+
+		if err != nil {
+			writeJSON(w, nethttp.StatusBadGateway, errorResponse{Error: "Failed to fetch movie feed"})
 			return
 		}
 

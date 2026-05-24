@@ -28,3 +28,13 @@ export const discoverMovies = (sortBy = 'recommended', page = 1): Promise<IMovie
 
   return api.get<IMovieResponse>(`/movies/discover?${params.toString()}`)
 }
+
+export const getMovieFeed = (type = 'recommended', page = 1): Promise<IMovieResponse> => {
+  const api = useAPI()
+  const params = new URLSearchParams({
+    type: type,
+    page: String(page)
+  })
+
+  return api.get<IMovieResponse>(`/movies/feed?${params.toString()}`)
+}

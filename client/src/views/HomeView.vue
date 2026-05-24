@@ -13,8 +13,8 @@ import {
 
   // Init
 const {
-  movies, hasMovies, isLoading, errorMessage, searchQuery, activeSort, moviesMeta, isSearchActive,
-  fetchPopularMovies, fetchSearchMovies, fetchDiscoveredMovies
+  movies, hasMovies, isLoading, errorMessage, searchQuery, activeSort, activeFeed, moviesMeta, isSearchActive,
+  fetchSearchMovies, fetchDiscoveredMovies, fetchMovieFeed
 } = useMovies()
 
   // Constants
@@ -25,7 +25,7 @@ const sortItems = computed(() => HOME_CONTENT.main.sort.items.map((item) => ({
 
   // Vue properties
 onMounted(() => {
-  void fetchPopularMovies()
+  void fetchMovieFeed()
 })
 </script>
 
@@ -81,6 +81,8 @@ onMounted(() => {
             v-for="item in HOME_CONTENT.main.filters.items"
             :key="item.key"
             :label="item.label"
+            :active="!isSearchActive && item.key === activeFeed"
+            @click="fetchMovieFeed(item.key)"
           />
         </main>
       </section>

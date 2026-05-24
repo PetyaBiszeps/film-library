@@ -15,6 +15,12 @@ export default {
       }, {
         key: 'new',
         label: 'New'
+      }, {
+        key: 'recently-added',
+        label: 'Recently added'
+      }, {
+        key: 'friends-watched',
+        label: 'Friends watched'
       }]
     },
     sort: {

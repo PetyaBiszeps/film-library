@@ -15,6 +15,8 @@ const defaultPosterSize = "w342"
 
 var ErrTMDBNotConfigured = errors.New("tmdb is not configured")
 var ErrUnsupportedSortOption = errors.New("unsupported sort option")
+var ErrUnsupportedFeedType = errors.New("unsupported feed type")
+var ErrFeedNotImplemented = errors.New("feed is not implemented")
 
 type Client struct {
 	apiBaseURL   string
@@ -157,6 +159,59 @@ func (c *Client) DiscoverMovies(ctx context.Context, sortBy string, page int) (M
 	return MapTMDBMovieListResponse(tmdbResponse, c.imageBaseURL, defaultPosterSize, nil), nil
 }
 
+func (c *Client) FetchFeed(ctx context.Context, feedType string, page int) (MovieListResponse, error) {
+	feed, ok := tmdbFeed(feedType)
+	if !ok {
+		return MovieListResponse{}, ErrUnsupportedFeedType
+	}
+
+	if !feed.implemented {
+		return MovieListResponse{}, ErrFeedNotImplemented
+	}
+
+	if strings.TrimSpace(c.bearerToken) == "" {
+		return MovieListResponse{}, ErrTMDBNotConfigured
+	}
+
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.TrimRight(c.apiBaseURL, "/")+feed.path, nil)
+	if err != nil {
+		return MovieListResponse{}, fmt.Errorf("create tmdb feed request: %w", err)
+	}
+
+	params := request.URL.Query()
+	params.Set("page", strconv.Itoa(page))
+	if feed.includeAdult {
+		params.Set("include_adult", "false")
+	}
+	if feed.sortBy != "" {
+		params.Set("sort_by", feed.sortBy)
+	}
+	if feed.voteCountGTE != "" {
+		params.Set("vote_count.gte", feed.voteCountGTE)
+	}
+	request.URL.RawQuery = params.Encode()
+
+	request.Header.Set("Authorization", "Bearer "+c.bearerToken)
+	request.Header.Set("Accept", "application/json")
+
+	response, err := c.httpClient.Do(request)
+	if err != nil {
+		return MovieListResponse{}, fmt.Errorf("fetch movie feed: %w", err)
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode < http.StatusOK || response.StatusCode >= http.StatusMultipleChoices {
+		return MovieListResponse{}, fmt.Errorf("tmdb returned status %d", response.StatusCode)
+	}
+
+	var tmdbResponse TMDBMovieListResponse
+	if err := json.NewDecoder(response.Body).Decode(&tmdbResponse); err != nil {
+		return MovieListResponse{}, fmt.Errorf("decode tmdb movie feed: %w", err)
+	}
+
+	return MapTMDBMovieListResponse(tmdbResponse, c.imageBaseURL, defaultPosterSize, nil), nil
+}
+
 func tmdbDiscoverSortBy(sortBy string) (string, bool, bool) {
 	switch strings.TrimSpace(sortBy) {
 	case "", "recommended", "popular":
@@ -169,5 +224,28 @@ func tmdbDiscoverSortBy(sortBy string) (string, bool, bool) {
 		return "title.asc", false, true
 	default:
 		return "", false, false
+	}
+}
+
+type feedConfig struct {
+	path         string
+	sortBy       string
+	voteCountGTE string
+	includeAdult bool
+	implemented  bool
+}
+
+func tmdbFeed(feedType string) (feedConfig, bool) {
+	switch strings.TrimSpace(feedType) {
+	case "", "recommended":
+		return feedConfig{path: "/discover/movie", sortBy: "popularity.desc", includeAdult: true, implemented: true}, true
+	case "trending":
+		return feedConfig{path: "/trending/movie/week", implemented: true}, true
+	case "new":
+		return feedConfig{path: "/discover/movie", sortBy: "primary_release_date.desc", voteCountGTE: "10", includeAdult: true, implemented: true}, true
+	case "recently-added", "friends-watched":
+		return feedConfig{}, true
+	default:
+		return feedConfig{}, false
 	}
 }
