@@ -1,0 +1,171 @@
+@use "../../resources.scss" as *;
+
+.commonFilter {
+  position: relative;
+
+  &__trigger {
+    min-height: 36px;
+  }
+
+  &__overlay {
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    position: fixed;
+    background: rgb(0 0 0 / 20%);
+    align-items: flex-end;
+  }
+
+  &__menu {
+    width: 100%;
+    border-top: 1px solid $border-default;
+    overflow: auto;
+    padding: 16px 20px;
+    max-height: calc(100dvh - 80px);
+    background: $bg-page;
+    box-shadow: 0 -8px 24px rgb(0 0 0 / 20%);
+
+    &__handle {
+      width: 54px;
+      height: 4px;
+      margin: 0 auto 16px;
+      background: $border-default;
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 22px;
+      justify-content: space-between;
+
+      &__title {
+        color: $text-primary;
+
+        @include h2;
+      }
+
+      &__clear {
+        color: $accent-default;
+        border: 0;
+        cursor: pointer;
+        background: transparent;
+        transition: $transition-base;
+
+        @include sm-accent;
+
+        &:hover {
+          color: $accent-dark;
+        }
+
+        &:focus-visible {
+          outline: 2px solid $accent-default;
+          outline-offset: 1px;
+        }
+      }
+    }
+
+    &__section {
+      margin-bottom: 28px;
+
+      &__label {
+        color: $text-tertiary;
+        margin-bottom: 12px;
+
+        @include xs-accent;
+      }
+    }
+
+    &__options {
+      gap: 8px;
+      display: flex;
+      flex-wrap: wrap;
+
+      &.sort {
+        flex-wrap: nowrap;
+      }
+
+      &__item {
+        color: $text-secondary;
+        border: 1px solid $border-default;
+        cursor: pointer;
+        padding: 7px 14px;
+        background: $bg-surface;
+        transition: $transition-base;
+
+        @include sm;
+
+        &.active {
+          color: $accent-default;
+          border-color: $border-accent;
+          background: $bg-accent;
+
+          @include sm-accent;
+        }
+
+        &:hover {
+          border-color: $border-accent;
+        }
+
+        &:focus-visible {
+          outline: 2px solid $accent-default;
+          outline-offset: 1px;
+        }
+      }
+    }
+
+    &__range {
+      height: 24px;
+      margin-top: 18px;
+      position: relative;
+
+      &__track,
+      &__active {
+        top: 10px;
+        height: 4px;
+        position: absolute;
+      }
+
+      &__track {
+        right: 0;
+        left: 0;
+        background: $border-default;
+      }
+
+      &__active {
+        right: 72px;
+        left: 98px;
+        background: $accent-light;
+      }
+
+      &__thumb {
+        top: 2px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid $border-accent;
+        position: absolute;
+        background: $accent-default;
+
+        &.start {
+          left: 90px;
+        }
+
+        &.end {
+          right: 60px;
+        }
+      }
+    }
+
+    &__rangeText {
+      color: $text-secondary;
+      margin-top: 2px;
+
+      @include xs;
+    }
+
+    &__apply {
+      width: 100%;
+      margin-top: 10px;
+      min-height: 42px;
+    }
+  }
+}
