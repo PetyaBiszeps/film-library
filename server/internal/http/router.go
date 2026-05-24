@@ -7,6 +7,7 @@ func NewRouter(movieService MovieService) nethttp.Handler {
 	mux.HandleFunc("GET /health", Health)
 	mux.HandleFunc("GET /movies/popular", PopularMovies(movieService))
 	mux.HandleFunc("GET /movies/search", SearchMovies(movieService))
+	mux.HandleFunc("GET /movies/discover", DiscoverMovies(movieService))
 
 	return mux
 }

@@ -18,3 +18,13 @@ export const searchMovies = (query: string, page = 1): Promise<IMovieResponse> =
 
   return api.get<IMovieResponse>(`/movies/search?${params.toString()}`)
 }
+
+export const discoverMovies = (sortBy = 'recommended', page = 1): Promise<IMovieResponse> => {
+  const api = useAPI()
+  const params = new URLSearchParams({
+    sortBy: sortBy,
+    page: String(page)
+  })
+
+  return api.get<IMovieResponse>(`/movies/discover?${params.toString()}`)
+}

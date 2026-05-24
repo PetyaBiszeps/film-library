@@ -14,6 +14,7 @@ import (
 type MovieService interface {
 	PopularMovies(ctx context.Context) (movies.MovieListResponse, error)
 	SearchMovies(ctx context.Context, query string, page int) (movies.MovieListResponse, error)
+	DiscoverMovies(ctx context.Context, sortBy string, page int) (movies.MovieListResponse, error)
 }
 
 type errorResponse struct {
@@ -66,6 +67,37 @@ func SearchMovies(movieService MovieService) nethttp.HandlerFunc {
 
 		if err != nil {
 			writeJSON(w, nethttp.StatusBadGateway, errorResponse{Error: "Failed to search movies"})
+			return
+		}
+
+		writeJSON(w, nethttp.StatusOK, response)
+	}
+}
+
+func DiscoverMovies(movieService MovieService) nethttp.HandlerFunc {
+	return func(w nethttp.ResponseWriter, r *nethttp.Request) {
+		sortBy := strings.TrimSpace(r.URL.Query().Get("sortBy"))
+		page := 1
+		if value := r.URL.Query().Get("page"); value != "" {
+			parsedPage, err := strconv.Atoi(value)
+			if err == nil && parsedPage > 0 {
+				page = parsedPage
+			}
+		}
+
+		response, err := movieService.DiscoverMovies(r.Context(), sortBy, page)
+		if errors.Is(err, movies.ErrUnsupportedSortOption) {
+			writeJSON(w, nethttp.StatusBadRequest, errorResponse{Error: "Unsupported sort option"})
+			return
+		}
+
+		if errors.Is(err, movies.ErrTMDBNotConfigured) {
+			writeJSON(w, nethttp.StatusInternalServerError, errorResponse{Error: "TMDB is not configured"})
+			return
+		}
+
+		if err != nil {
+			writeJSON(w, nethttp.StatusBadGateway, errorResponse{Error: "Failed to discover movies"})
 			return
 		}
 

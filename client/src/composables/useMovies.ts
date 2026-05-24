@@ -1,4 +1,5 @@
 import {
+  discoverMovies,
   getPopularMovies,
   searchMovies
 } from '@/api/movies.ts'
@@ -13,6 +14,7 @@ export default () => {
   const isLoading = ref<boolean>(false)
   const errorMessage = ref<string>('')
   const searchQuery = ref<string>('')
+  const activeSort = ref<string>('recommended')
   const hasMovies = computed<boolean>(() => movies.value.length > 0)
   const moviesMeta = computed<string>(() => `${totalResults.value} movies`)
   const isSearchActive = computed<boolean>(() => searchQuery.value.trim() !== '')
@@ -30,6 +32,7 @@ export default () => {
 
       movies.value = response.results
       totalResults.value = response.totalResults
+      activeSort.value = 'recommended'
     } catch {
       movies.value = []
       totalResults.value = 0
@@ -66,6 +69,26 @@ export default () => {
     }
   }
 
+  const fetchDiscoveredMovies = async (sortBy = activeSort.value, page = 1): Promise<void> => {
+    searchQuery.value = ''
+    isLoading.value = true
+    errorMessage.value = ''
+
+    try {
+      const response = await discoverMovies(sortBy, page)
+
+      movies.value = response.results
+      totalResults.value = response.totalResults
+      activeSort.value = sortBy
+    } catch {
+      movies.value = []
+      totalResults.value = 0
+      errorMessage.value = 'Failed to sort movies.'
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   const clearSearch = async (): Promise<void> => {
     searchQuery.value = ''
     await fetchPopularMovies()
@@ -77,12 +100,14 @@ export default () => {
     isLoading,
     errorMessage,
     searchQuery,
+    activeSort,
     hasMovies,
     moviesMeta,
     isSearchActive,
     setSearchQuery,
     fetchPopularMovies,
     fetchSearchMovies,
+    fetchDiscoveredMovies,
     clearSearch
   }
 }

@@ -7,30 +7,21 @@ import BaseInput from '@/components/base/BaseInput.vue'
 import useMovies from '@/composables/useMovies.ts'
 import HOME_CONTENT from '@/content/home.ts'
 import {
+  computed,
   onMounted
 } from 'vue'
 
   // Init
 const {
-  movies, hasMovies, isLoading, errorMessage, searchQuery, moviesMeta, isSearchActive,
-  fetchPopularMovies, fetchSearchMovies
+  movies, hasMovies, isLoading, errorMessage, searchQuery, activeSort, moviesMeta, isSearchActive,
+  fetchPopularMovies, fetchSearchMovies, fetchDiscoveredMovies
 } = useMovies()
 
   // Constants
-const sortItems = [{
-  key: 'recommended',
-  label: 'Recommended',
-  active: true
-}, {
-  key: 'newest',
-  label: 'Newest'
-}, {
-  key: 'rating',
-  label: 'Rating'
-}, {
-  key: 'title',
-  label: 'Title A-Z'
-}]
+const sortItems = computed(() => HOME_CONTENT.main.sort.items.map((item) => ({
+  ...item,
+  active: item.key === activeSort.value
+})))
 
   // Vue properties
 onMounted(() => {
@@ -65,10 +56,11 @@ onMounted(() => {
         />
 
         <CommonDropdown
-          label="Sort"
-          title="Sort by"
+          :label="HOME_CONTENT.main.sort.label"
+          :title="HOME_CONTENT.main.sort.title"
           align="right"
           :items="sortItems"
+          @select="fetchDiscoveredMovies($event.key)"
         />
       </div>
 

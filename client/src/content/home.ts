@@ -17,6 +17,23 @@ export default {
         label: 'New'
       }]
     },
+    sort: {
+      label: 'Sort',
+      title: 'Sort by',
+      items: [{
+        key: 'recommended',
+        label: 'Recommended'
+      }, {
+        key: 'newest',
+        label: 'Newest'
+      }, {
+        key: 'rating',
+        label: 'Rating'
+      }, {
+        key: 'title-az',
+        label: 'Title A-Z'
+      }]
+    },
     recommended: {
       title: 'Recommended'
     }
