@@ -3,15 +3,155 @@
 .sidebar {
   display: none;
 
-  &__header {
-    &__title {}
-  }
-
-  &__content {}
-
-  &__footer {}
-
   @include laptop {
-    display: block;
+    gap: 24px;
+    width: 220px;
+    display: flex;
+    flex: 0 0 220px;
+    min-height: calc(100dvh - 80px);
+    flex-direction: column;
+
+    &__header {
+      &__title {
+        color: $text-primary;
+
+        @include logo;
+      }
+    }
+
+    &__content {
+      gap: 24px;
+      flex: 1;
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+    }
+
+    &__nav {
+      &__list {
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+
+        &__item {
+          display: flex;
+        }
+      }
+
+      .baseLink {
+        padding: 6px 10px;
+
+        @include body;
+
+        &:not(.active) {
+          color: $text-secondary;
+          border-color: $border-default;
+          background-color: $bg-surface;
+        }
+
+        &:not(.active)::before {
+          content: '';
+
+          flex: 0 0 3px;
+          width: 3px;
+          height: 14px;
+          display: block;
+          background-color: $border-default;
+        }
+      }
+    }
+
+    &__sectionTitle {
+      color: $text-tertiary;
+      margin-bottom: 8px;
+
+      @include xs-accent;
+    }
+
+    &__filters {
+      &__list {
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+
+        &__item {
+          display: flex;
+
+          .commonChip {
+            width: 100%;
+            padding: 6px 10px;
+            justify-content: flex-start;
+
+            &:not(.active) {
+              color: $text-secondary !important;
+              border-color: $border-default;
+              background-color: $bg-surface;
+            }
+
+            &.active {
+              color: $accent-default !important;
+              border-color: $border-accent;
+              background-color: $bg-accent;
+            }
+
+            &.active .commonChip__square {
+              background: $accent-light;
+            }
+          }
+        }
+      }
+    }
+
+    &__spacer {
+      flex: 1;
+      min-height: 24px;
+    }
+
+    &__footer {
+      margin-top: auto;
+    }
+
+    &__summary {
+      gap: 8px;
+      display: flex;
+      flex-direction: column;
+
+      &__row {
+        gap: 8px;
+        display: flex;
+      }
+
+      &__item {
+        gap: 4px;
+        width: 100%;
+        border: 1px solid $border-default;
+        display: flex;
+        padding: 8px 10px;
+        background: $bg-surface;
+        flex-direction: column;
+
+        &__label {
+          color: $text-tertiary;
+
+          @include xxs;
+        }
+
+        &__value {
+          color: $text-primary;
+
+          @include body-strong;
+        }
+
+        &.active {
+          border-color: $border-accent;
+          background: $bg-accent;
+
+          .sidebar__summary__item__label,
+          .sidebar__summary__item__value {
+            color: $accent-default;
+          }
+        }
+      }
+    }
   }
 }
