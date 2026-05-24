@@ -1,8 +1,30 @@
 <script setup lang="ts">
+import CommonDropdown from '@/components/common/CommonDropdown.vue'
 import CommonSearch from '@/components/common/CommonSearch.vue'
-import CommonChip from '@/components/common/CommonChip.vue'
 import CommonCard from '@/components/common/CommonCard.vue'
+import CommonChip from '@/components/common/CommonChip.vue'
+import BaseInput from '@/components/base/BaseInput.vue'
 import HOME_CONTENT from '@/content/home.ts'
+import {
+  ref
+} from 'vue'
+
+  // Constants
+const searchQuery = ref<string>('')
+const sortItems = [{
+  key: 'recommended',
+  label: 'Recommended',
+  active: true
+}, {
+  key: 'newest',
+  label: 'Newest'
+}, {
+  key: 'rating',
+  label: 'Rating'
+}, {
+  key: 'title',
+  label: 'Title A-Z'
+}]
 </script>
 
 <template>
@@ -16,6 +38,26 @@ import HOME_CONTENT from '@/content/home.ts'
         <p class="home__header__text__caption">
           {{ HOME_CONTENT.header.description }}
         </p>
+      </div>
+
+      <div class="home__header__actions">
+        <BaseInput
+          v-model="searchQuery"
+
+          name="desktop-search"
+          type="search"
+          size="sm"
+          placeholder="Search title, cast, or keyword"
+          class="home__header__actions__search"
+          style="width: 220px;"
+        />
+
+        <CommonDropdown
+          label="Sort"
+          title="Sort by"
+          align="right"
+          :items="sortItems"
+        />
       </div>
 
       <CommonSearch />

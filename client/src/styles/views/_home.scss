@@ -20,6 +20,10 @@
       }
     }
 
+    &__actions {
+      display: none;
+    }
+
     &__filters {
       gap: 8px;
       display: flex;
@@ -36,6 +40,46 @@
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
+      }
+    }
+  }
+
+  @include laptop {
+    &__header {
+      display: grid;
+      gap: 32px;
+      align-items: center;
+      grid-template-columns: 1fr auto;
+
+      &__text {
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+
+        &__caption {
+          color: $text-secondary;
+          max-width: 420px;
+
+          @include body;
+        }
+      }
+
+      &__actions {
+        gap: 16px;
+        display: flex;
+        align-items: flex-start;
+
+        &__search {
+          width: 320px;
+        }
+      }
+
+      > .commonSearch {
+        display: none;
+      }
+
+      &__filters {
+        grid-column: 1 / -1;
       }
     }
   }
