@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NAV_CONTENT from '@/content/Navigation.content.ts'
 import BaseButton from '@/components/base/BaseButton.vue'
+import CommonProfile from '@/components/common/CommonProfile.vue'
 // import BaseIcon from '@/components/base/BaseIcon.vue'
 </script>
 
@@ -22,12 +23,7 @@ import BaseButton from '@/components/base/BaseButton.vue'
         </li>
 
         <li class="header__nav__list__item">
-          <BaseButton
-            size="sm"
-            variant="tertiary"
-          >
-            U
-          </BaseButton>
+          <CommonProfile />
         </li>
       </ul>
     </nav>

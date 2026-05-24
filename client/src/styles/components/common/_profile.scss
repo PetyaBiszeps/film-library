@@ -1,0 +1,169 @@
+@use "../../resources.scss" as *;
+
+.commonProfile {
+  position: relative;
+
+  &__trigger {
+    min-height: 36px;
+  }
+
+  &__overlay {
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    position: fixed;
+    background: rgb(0 0 0 / 20%);
+    align-items: flex-end;
+  }
+
+  &__menu {
+    width: 100%;
+    border-top: 1px solid $border-default;
+    overflow: auto;
+    padding: 16px 20px;
+    max-height: calc(100dvh - 80px);
+    background: $bg-page;
+    box-shadow: 0 -8px 24px rgb(0 0 0 / 20%);
+
+    &__handle {
+      width: 54px;
+      height: 4px;
+      margin: 0 auto 24px;
+      background: $border-default;
+    }
+
+    &__summary {
+      gap: 16px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 28px;
+
+      &__avatar {
+        width: 56px;
+        height: 56px;
+        color: $accent-default;
+        border: 1px solid $border-accent;
+        display: flex;
+        flex: 0 0 auto;
+        background: $bg-accent;
+        align-items: center;
+        justify-content: center;
+
+        @include h4;
+      }
+
+      &__identity {
+        flex: 1;
+        min-width: 0;
+
+        &__name {
+          color: $text-primary;
+
+          @include h2;
+        }
+
+        &__caption {
+          color: $text-tertiary;
+
+          @include sm;
+        }
+      }
+
+      &__edit {
+        min-width: 64px;
+      }
+    }
+
+    &__stats {
+      display: grid;
+      border: 1px solid $border-default;
+      padding: 16px 20px;
+      background: $bg-surface;
+      margin-bottom: 26px;
+      grid-template-columns: repeat(3, 1fr);
+
+      &__item {
+        &__label {
+          color: $text-tertiary;
+          margin-bottom: 4px;
+
+          @include xxs;
+        }
+
+        &__value {
+          color: $text-primary;
+
+          @include h4;
+        }
+
+        &.active {
+          .commonProfile__menu__stats__item__label,
+          .commonProfile__menu__stats__item__value {
+            color: $accent-default;
+          }
+        }
+      }
+    }
+
+    &__label {
+      color: $text-tertiary;
+      margin-bottom: 10px;
+
+      @include xs-accent;
+    }
+
+    &__actions {
+      gap: 8px 10px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+
+      &__item {
+        gap: 12px;
+        color: $text-secondary;
+        border: 1px solid $border-default;
+        cursor: pointer;
+        display: flex;
+        padding: 10px 14px;
+        background: $bg-surface;
+        transition: $transition-base;
+        text-align: left;
+        align-items: center;
+
+        @include sm;
+
+        &.wide {
+          grid-column: 1 / -1;
+        }
+
+        &.active {
+          color: $text-primary;
+        }
+
+        &:hover {
+          border-color: $border-accent;
+        }
+
+        &:focus-visible {
+          outline: 2px solid $accent-default;
+          outline-offset: 1px;
+        }
+
+        &__dot {
+          width: 6px;
+          height: 6px;
+          flex: 0 0 auto;
+          background: $text-tertiary;
+        }
+
+        &__meta {
+          color: $text-tertiary;
+          margin-left: auto;
+        }
+
+        &.active &__dot {
+          background: $accent-light;
+        }
+      }
+    }
+  }
+}
