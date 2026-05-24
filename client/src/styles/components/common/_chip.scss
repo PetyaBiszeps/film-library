@@ -10,6 +10,12 @@
     background: currentColor;
   }
 
+  &__bar {
+    width: 3px;
+    height: 14px;
+    background: currentColor;
+  }
+
   &:not(:disabled):hover {
     color: $accent-light !important;
   }

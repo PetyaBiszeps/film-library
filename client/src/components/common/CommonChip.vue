@@ -6,8 +6,10 @@ import type {
 
 const {
   label,
+  href = '',
   active = false,
-  disabled = false
+  disabled = false,
+  marker = 'square'
 } = defineProps<ICommonChip>()
 
 const emit = defineEmits<{
@@ -27,6 +29,7 @@ function handleClick(e: PointerEvent): void {
   <BaseButton
     :size="'sm'"
     :variant="'tertiary'"
+    :href="href"
     :disabled="disabled"
 
     :class="['commonChip', {
@@ -35,7 +38,7 @@ function handleClick(e: PointerEvent): void {
     @click="handleClick"
   >
     <template #left>
-      <span class="commonChip__square" />
+      <span :class="`commonChip__${marker}`" />
     </template>
 
     {{ label }}

@@ -38,25 +38,26 @@
         }
       }
 
-      .baseLink {
+      .commonChip {
+        width: 100%;
         padding: 6px 10px;
+        justify-content: flex-start;
 
         @include body;
 
         &:not(.active) {
-          color: $text-secondary;
+          color: $text-secondary !important;
           border-color: $border-default;
           background-color: $bg-surface;
         }
 
-        &:not(.active)::before {
-          content: '';
-
-          flex: 0 0 3px;
-          width: 3px;
-          height: 14px;
-          display: block;
+        &:not(.active) .commonChip__square {
           background-color: $border-default;
+        }
+
+        &.active {
+          border-color: $border-accent;
+          background-color: $bg-accent;
         }
       }
     }

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import NavigationContent from '@/content/Navigation.content.ts'
 import CommonChip from '@/components/common/CommonChip.vue'
-import BaseLink from '@/components/base/BaseLink.vue'
 </script>
 
 <template>
@@ -26,13 +25,10 @@ import BaseLink from '@/components/base/BaseLink.vue'
             :key="tab.name"
             class="sidebar__nav__list__item"
           >
-            <BaseLink
-              :name="tab.name"
+            <CommonChip
+              :label="tab.name"
               :href="tab.href"
-              :exact="true"
-
-              size="sm"
-              variant="primary"
+              :marker="'bar'"
             />
           </li>
         </ul>

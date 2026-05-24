@@ -13,4 +13,6 @@ export interface ICommonChip {
   label: string
   active?: boolean
   disabled?: boolean
+  href?: string
+  marker?: 'square' | 'bar'
 }
