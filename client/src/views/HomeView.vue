@@ -4,13 +4,19 @@ import CommonSearch from '@/components/common/CommonSearch.vue'
 import CommonCard from '@/components/common/CommonCard.vue'
 import CommonChip from '@/components/common/CommonChip.vue'
 import BaseInput from '@/components/base/BaseInput.vue'
+import { getPopularMovies } from '@/api/movies.ts'
+import { ref, computed, onMounted } from 'vue'
 import HOME_CONTENT from '@/content/home.ts'
-import {
-  ref
-} from 'vue'
+import type {
+  IMovie
+} from '@/types'
 
   // Constants
 const searchQuery = ref<string>('')
+const movies = ref<IMovie[]>([])
+const isLoading = ref<boolean>(false)
+const errorMessage = ref<string>('')
+const totalResults = ref<number>(0)
 const sortItems = [{
   key: 'recommended',
   label: 'Recommended',
@@ -25,6 +31,35 @@ const sortItems = [{
   key: 'title',
   label: 'Title A-Z'
 }]
+
+const moviesMeta = computed<string>(() => `${totalResults.value} movies`)
+
+  // Methods
+function movieMeta(movie: IMovie): string {
+  return [movie.year, movie.genre].filter(Boolean).join(' • ')
+}
+
+async function fetchPopularMovies(): Promise<void> {
+  isLoading.value = true
+  errorMessage.value = ''
+
+  try {
+    const response = await getPopularMovies()
+
+    movies.value = response.results
+    totalResults.value = response.totalResults
+  } catch {
+    movies.value = []
+    totalResults.value = 0
+    errorMessage.value = 'Unable to load movies. Please try again later.'
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  void fetchPopularMovies()
+})
 </script>
 
 <template>
@@ -87,17 +122,44 @@ const sortItems = [{
           </h2>
 
           <p class="home__main__recommended__header__meta">
-            {{ HOME_CONTENT.main.recommended.meta }}
+            {{ moviesMeta }}
           </p>
         </header>
 
         <main class="home__main__recommended__main">
-          <CommonCard
-            v-for="item in HOME_CONTENT.main.recommended.items"
-            :key="item.title"
-            :title="item.title"
-            :meta="item.meta"
-          />
+          <p
+            v-if="isLoading"
+
+            class="home__main__recommended__state"
+          >
+            Loading movies...
+          </p>
+
+          <p
+            v-else-if="errorMessage"
+
+            class="home__main__recommended__state"
+          >
+            {{ errorMessage }}
+          </p>
+
+          <p
+            v-else-if="movies.length === 0"
+
+            class="home__main__recommended__state"
+          >
+            No movies found.
+          </p>
+
+          <template v-else>
+            <CommonCard
+              v-for="movie in movies"
+              :key="movie.tmdbId"
+              :title="movie.title"
+              :meta="movieMeta(movie)"
+              :poster-src="movie.posterUrl"
+            />
+          </template>
         </main>
       </section>
     </main>
