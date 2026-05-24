@@ -17,6 +17,20 @@ cleanup() {
 
 trap cleanup EXIT INT TERM
 
+load_env() {
+  if [[ -f "${ROOT_DIR}/.env" ]]; then
+    set -a
+    source "${ROOT_DIR}/.env"
+    set +a
+  fi
+
+  if [[ -f "${ROOT_DIR}/server/.env" ]]; then
+    set -a
+    source "${ROOT_DIR}/server/.env"
+    set +a
+  fi
+}
+
 start_client() {
   if [[ -f "${ROOT_DIR}/client/package.json" ]]; then
     (cd "${ROOT_DIR}/client" && pnpm dev) &
@@ -48,6 +62,7 @@ start_server() {
   printf '%s\n' "Server entrypoint not found; skipping backend."
 }
 
+load_env
 start_server
 start_client
 
