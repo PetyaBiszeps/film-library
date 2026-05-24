@@ -77,34 +77,20 @@ import CommonChip from '@/components/common/CommonChip.vue'
       </h4>
 
       <dl class="sidebar__summary">
-        <div class="sidebar__summary__row">
-          <div
-            v-for="stat in NavigationContent.stats.slice(0, 2)"
-            :key="stat.label"
-            class="sidebar__summary__item"
-          >
-            <dt class="sidebar__summary__item__label">
-              {{ stat.label }}
-            </dt>
+        <div
+          v-for="stat in NavigationContent.stats"
+          :key="stat.label"
+          :class="['sidebar__summary__item', {
+            active: stat.active
+          }]"
+        >
+          <dt class="sidebar__summary__item__label">
+            {{ stat.label }}
+          </dt>
 
-            <dd class="sidebar__summary__item__value">
-              {{ stat.value }}
-            </dd>
-          </div>
-        </div>
-
-        <div class="sidebar__summary__row">
-          <div
-            class="sidebar__summary__item active"
-          >
-            <dt class="sidebar__summary__item__label">
-              {{ NavigationContent.stats[2].label }}
-            </dt>
-
-            <dd class="sidebar__summary__item__value">
-              {{ NavigationContent.stats[2].value }}
-            </dd>
-          </div>
+          <dd class="sidebar__summary__item__value">
+            {{ stat.value }}
+          </dd>
         </div>
       </dl>
     </footer>

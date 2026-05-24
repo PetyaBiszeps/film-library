@@ -114,13 +114,8 @@
 
     &__summary {
       gap: 8px;
-      display: flex;
-      flex-direction: column;
-
-      &__row {
-        gap: 8px;
-        display: flex;
-      }
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
 
       &__item {
         gap: 4px;
@@ -151,6 +146,10 @@
           .sidebar__summary__item__value {
             color: $accent-default;
           }
+        }
+
+        &:last-child:nth-child(odd) {
+          grid-column: 1 / -1;
         }
       }
     }
