@@ -16,3 +16,18 @@ export interface ICommonChip {
   href?: string
   marker?: 'square' | 'bar'
 }
+
+export interface ICommonDropdown {
+  label: string
+  title?: string
+  items: ICommonDropdownItem[]
+  align?: 'left' | 'right'
+  disabled?: boolean
+}
+
+export interface ICommonDropdownItem {
+  key: string
+  label: string
+  active?: boolean
+  disabled?: boolean
+}

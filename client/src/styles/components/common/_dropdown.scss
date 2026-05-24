@@ -1,0 +1,83 @@
+@use "../../resources.scss" as *;
+
+.commonDropdown {
+  display: inline-flex;
+  position: relative;
+
+  &__menu {
+    top: calc(100% + 10px);
+    left: 0;
+    gap: 8px;
+    z-index: 8;
+    width: 220px;
+    border: 1px solid $border-default;
+    display: flex;
+    padding: 12px;
+    position: absolute;
+    background: $bg-page;
+    box-shadow: 0 6px 18px rgb(0 0 0 / 10%);
+    flex-direction: column;
+  }
+
+  &.align-right &__menu {
+    right: 0;
+    left: auto;
+  }
+
+  &__title {
+    color: $text-tertiary;
+
+    @include xs-accent;
+  }
+
+  &__item {
+    gap: 8px;
+    color: $text-secondary;
+    border: 1px solid $border-default;
+    cursor: pointer;
+    display: flex;
+    min-height: 30px;
+    padding: 6px 10px;
+    background: $bg-surface;
+    transition: $transition-base;
+    text-align: left;
+    align-items: center;
+
+    @include sm;
+
+    &__square {
+      width: 8px;
+      height: 8px;
+      flex: 0 0 auto;
+      background: $text-tertiary;
+    }
+
+    &:hover:not(:disabled) {
+      color: $text-primary;
+      border-color: $border-accent;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $accent-default;
+      outline-offset: 1px;
+    }
+
+    &.active {
+      color: $accent-default;
+      border-color: $border-accent;
+      background: $bg-accent;
+
+      @include sm-accent;
+
+      .commonDropdown__item__square {
+        background: $accent-light;
+      }
+    }
+
+    &.disabled,
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
+}
