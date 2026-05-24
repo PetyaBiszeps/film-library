@@ -6,9 +6,11 @@
   @include laptop {
     gap: 24px;
     width: 220px;
+    height: 100%;
     display: flex;
     flex: 0 0 220px;
-    min-height: calc(100dvh - 80px);
+    min-height: 0;
+    overflow: hidden;
     flex-direction: column;
 
     &__header {
