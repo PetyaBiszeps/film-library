@@ -4,19 +4,21 @@ import CommonSearch from '@/components/common/CommonSearch.vue'
 import CommonCard from '@/components/common/CommonCard.vue'
 import CommonChip from '@/components/common/CommonChip.vue'
 import BaseInput from '@/components/base/BaseInput.vue'
-import { getPopularMovies } from '@/api/movies.ts'
-import { ref, computed, onMounted } from 'vue'
+import useMovies from '@/composables/useMovies.ts'
 import HOME_CONTENT from '@/content/home.ts'
-import type {
-  IMovie
-} from '@/types'
+import {
+  ref,
+  onMounted
+} from 'vue'
+
+  // Init
+const {
+  movies, hasMovies, isLoading, errorMessage, moviesMeta,
+  fetchPopularMovies
+} = useMovies()
 
   // Constants
 const searchQuery = ref<string>('')
-const movies = ref<IMovie[]>([])
-const isLoading = ref<boolean>(false)
-const errorMessage = ref<string>('')
-const totalResults = ref<number>(0)
 const sortItems = [{
   key: 'recommended',
   label: 'Recommended',
@@ -32,31 +34,7 @@ const sortItems = [{
   label: 'Title A-Z'
 }]
 
-const moviesMeta = computed<string>(() => `${totalResults.value} movies`)
-
-  // Methods
-function movieMeta(movie: IMovie): string {
-  return [movie.year, movie.genre].filter(Boolean).join(' • ')
-}
-
-async function fetchPopularMovies(): Promise<void> {
-  isLoading.value = true
-  errorMessage.value = ''
-
-  try {
-    const response = await getPopularMovies()
-
-    movies.value = response.results
-    totalResults.value = response.totalResults
-  } catch {
-    movies.value = []
-    totalResults.value = 0
-    errorMessage.value = 'Unable to load movies. Please try again later.'
-  } finally {
-    isLoading.value = false
-  }
-}
-
+  // Vue properties
 onMounted(() => {
   void fetchPopularMovies()
 })
@@ -144,7 +122,7 @@ onMounted(() => {
           </p>
 
           <p
-            v-else-if="movies.length === 0"
+            v-else-if="!hasMovies"
 
             class="home__main__recommended__state"
           >
@@ -156,7 +134,7 @@ onMounted(() => {
               v-for="movie in movies"
               :key="movie.tmdbId"
               :title="movie.title"
-              :meta="movieMeta(movie)"
+              :meta="[movie.year, movie.genre].filter(Boolean).join(' • ')"
               :poster-src="movie.posterUrl"
             />
           </template>
