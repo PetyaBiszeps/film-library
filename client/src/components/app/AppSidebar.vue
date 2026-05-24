@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import NavigationContent from '@/content/Navigation.content.ts'
+import HOME_CONTENT from '@/content/home.ts'
 import CommonChip from '@/components/common/CommonChip.vue'
+import useMovies from '@/composables/useMovies.ts'
+
+const {
+  activeFeed,
+  isSearchActive,
+  fetchMovieFeed
+} = useMovies()
 </script>
 
 <template>
@@ -42,18 +50,19 @@ import CommonChip from '@/components/common/CommonChip.vue'
           id="sidebar-filters-title"
           class="sidebar__sectionTitle"
         >
-          Quick Filters
+          {{ HOME_CONTENT.main.filters.title }}
         </h4>
 
         <ul class="sidebar__filters__list">
           <li
-            v-for="filter in NavigationContent.filters"
-            :key="filter.label"
+            v-for="filter in HOME_CONTENT.main.filters.items"
+            :key="filter.key"
             class="sidebar__filters__list__item"
           >
             <CommonChip
               :label="filter.label"
-              :active="filter.active"
+              :active="!isSearchActive && filter.key === activeFeed"
+              @click="fetchMovieFeed(filter.key)"
             />
           </li>
         </ul>
