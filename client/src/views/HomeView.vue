@@ -3,6 +3,7 @@ import CommonDropdown from '@/components/common/CommonDropdown.vue'
 import CommonSearch from '@/components/common/CommonSearch.vue'
 import CommonCard from '@/components/common/CommonCard.vue'
 import CommonChip from '@/components/common/CommonChip.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 import BaseInput from '@/components/base/BaseInput.vue'
 import useMovies from '@/composables/useMovies.ts'
 import HOME_CONTENT from '@/content/home.ts'
@@ -94,10 +95,6 @@ onMounted(() => {
           <h2 class="home__main__recommended__header__title">
             {{ isSearchActive ? 'Search results' : HOME_CONTENT.main.recommended.title }}
           </h2>
-
-          <p class="home__main__recommended__header__meta">
-            {{ moviesMeta }}
-          </p>
         </header>
 
         <main class="home__main__recommended__main">
@@ -135,6 +132,21 @@ onMounted(() => {
             />
           </template>
         </main>
+
+        <footer class="home__main__recommended__footer">
+          <p class="home__main__recommended__footer__meta">
+            {{ moviesMeta }}
+          </p>
+
+          <BaseButton
+            type="button"
+            size="sm"
+            variant="secondary"
+            class="home__main__recommended__footer__button"
+          >
+            Load more
+          </BaseButton>
+        </footer>
       </section>
     </main>
   </section>

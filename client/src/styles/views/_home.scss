@@ -83,7 +83,7 @@
       }
 
       &__filters {
-        grid-column: 1 / -1;
+        display: none;
       }
     }
   }
@@ -114,11 +114,6 @@
           @include h4;
         }
 
-        &__meta {
-          color: $text-tertiary;
-
-          @include xs;
-        }
       }
 
       &__main {
@@ -131,6 +126,30 @@
 
         @include laptop {
           grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      &__footer {
+        gap: 12px;
+        display: none;
+        flex-wrap: wrap;
+        flex-shrink: 0;
+        padding-top: 4px;
+        align-items: center;
+        justify-content: space-between;
+
+        &__meta {
+          color: $text-tertiary;
+
+          @include caption;
+        }
+
+        &__button {
+          margin-left: auto;
+        }
+
+        @include laptop {
+          display: flex;
         }
       }
     }
