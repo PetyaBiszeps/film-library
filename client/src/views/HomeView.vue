@@ -14,8 +14,8 @@ import {
 
   // Init
 const {
-  movies, hasMovies, isLoading, errorMessage, searchQuery, activeSort, activeFeed, moviesMeta, isSearchActive,
-  fetchSearchMovies, fetchDiscoveredMovies, fetchMovieFeed
+  movies, hasMovies, isLoading, isLoadingMore, errorMessage, searchQuery, activeSort, activeFeed, moviesMeta, isSearchActive,
+  canLoadMore, fetchSearchMovies, fetchDiscoveredMovies, fetchMovieFeed, loadMoreMovies
 } = useMovies()
 
   // Constants
@@ -107,7 +107,7 @@ onMounted(() => {
           </p>
 
           <p
-            v-else-if="errorMessage"
+            v-else-if="errorMessage && !hasMovies"
 
             class="home__main__recommended__state"
           >
@@ -135,16 +135,18 @@ onMounted(() => {
 
         <footer class="home__main__recommended__footer">
           <p class="home__main__recommended__footer__meta">
-            {{ moviesMeta }}
+            {{ errorMessage && hasMovies ? errorMessage : moviesMeta }}
           </p>
 
           <BaseButton
             type="button"
             size="sm"
             variant="secondary"
+            :disabled="!canLoadMore"
             class="home__main__recommended__footer__button"
+            @click="loadMoreMovies()"
           >
-            Load more
+            {{ isLoadingMore ? 'Loading...' : 'Load more' }}
           </BaseButton>
         </footer>
       </section>
