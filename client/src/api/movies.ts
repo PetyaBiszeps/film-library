@@ -1,5 +1,6 @@
 import useAPI from '@/composables/useAPI.ts'
 import type {
+  IMovieDetails,
   IMovieResponse
 } from '@/types'
 
@@ -37,4 +38,10 @@ export const getMovieFeed = (type = 'recommended', page = 1): Promise<IMovieResp
   })
 
   return api.get<IMovieResponse>(`/movies/feed?${params.toString()}`)
+}
+
+export const getMovieDetails = (id: number | string): Promise<IMovieDetails> => {
+  const api = useAPI()
+
+  return api.get<IMovieDetails>(`/movies/${encodeURIComponent(String(id))}`)
 }

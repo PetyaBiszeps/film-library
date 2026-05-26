@@ -14,3 +14,17 @@ export interface IMovie {
   posterUrl?: string
   rating?: number
 }
+
+export interface IMovieDetails {
+  id: number
+  tmdbId: number
+  title: string
+  year?: string
+  genres?: string[]
+  runtime?: number
+  releaseDate?: string
+  posterUrl?: string
+  backdropUrl?: string
+  rating?: number
+  overview?: string
+}

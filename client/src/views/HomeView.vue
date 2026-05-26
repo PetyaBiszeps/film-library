@@ -11,8 +11,13 @@ import {
   computed,
   onMounted
 } from 'vue'
+import { useRouter } from 'vue-router'
+import type {
+  IMovie
+} from '@/types'
 
   // Init
+const router = useRouter()
 const {
   movies, hasMovies, isLoading, isLoadingMore, errorMessage, searchQuery, activeSort, activeFeed, moviesMeta, isSearchActive,
   canLoadMore, fetchSearchMovies, fetchDiscoveredMovies, fetchMovieFeed, loadMoreMovies
@@ -28,6 +33,11 @@ const sortItems = computed(() => HOME_CONTENT.main.sort.items.map((item) => ({
 onMounted(() => {
   void fetchMovieFeed()
 })
+
+  // Methods
+function openMovieDetails(movie: IMovie): void {
+  void router.push(`/movies/${movie.tmdbId}`)
+}
 </script>
 
 <template>
@@ -129,6 +139,7 @@ onMounted(() => {
               :title="movie.title"
               :meta="[movie.year, movie.genre].filter(Boolean).join(' • ')"
               :poster-src="movie.posterUrl"
+              @click="openMovieDetails(movie)"
             />
           </template>
         </main>

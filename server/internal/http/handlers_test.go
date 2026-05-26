@@ -16,6 +16,7 @@ type failingMovieService struct {
 	searchErr   error
 	discoverErr error
 	feedErr     error
+	detailsErr  error
 }
 
 func (s failingMovieService) PopularMovies(ctx context.Context) (movies.MovieListResponse, error) {
@@ -34,11 +35,16 @@ func (s failingMovieService) FetchFeed(ctx context.Context, feedType string, pag
 	return movies.MovieListResponse{}, s.feedErr
 }
 
+func (s failingMovieService) GetMovieDetails(ctx context.Context, id int) (movies.MovieDetails, error) {
+	return movies.MovieDetails{}, s.detailsErr
+}
+
 type searchMovieService struct {
-	query  string
-	sortBy string
-	feed   string
-	page   int
+	query     string
+	sortBy    string
+	feed      string
+	page      int
+	detailsID int
 }
 
 func (s *searchMovieService) PopularMovies(ctx context.Context) (movies.MovieListResponse, error) {
@@ -84,6 +90,24 @@ func (s *searchMovieService) FetchFeed(ctx context.Context, feedType string, pag
 		},
 		TotalPages:   3,
 		TotalResults: 30,
+	}, nil
+}
+
+func (s *searchMovieService) GetMovieDetails(ctx context.Context, id int) (movies.MovieDetails, error) {
+	s.detailsID = id
+
+	return movies.MovieDetails{
+		ID:          id,
+		TMDBID:      id,
+		Title:       "Fight Club",
+		Year:        "1999",
+		Genres:      []string{"Drama"},
+		Runtime:     139,
+		ReleaseDate: "1999-10-15",
+		PosterURL:   "https://image.tmdb.org/t/p/w342/fight-club.jpg",
+		BackdropURL: "https://image.tmdb.org/t/p/w780/fight-club-backdrop.jpg",
+		Rating:      8.4,
+		Overview:    "An insomniac office worker meets a soap maker.",
 	}, nil
 }
 
@@ -409,5 +433,119 @@ func TestMovieFeedReturnsBadGatewayError(t *testing.T) {
 
 	if strings.TrimSpace(response.Body.String()) != `{"error":"Failed to fetch movie feed"}` {
 		t.Fatalf("unexpected response body: %s", response.Body.String())
+	}
+}
+
+func TestMovieDetailsReturnsBadRequestForInvalidID(t *testing.T) {
+	tests := []struct {
+		name string
+		path string
+	}{
+		{name: "missing", path: "/movies/"},
+		{name: "not a number", path: "/movies/not-a-number"},
+		{name: "zero", path: "/movies/0"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			request := httptest.NewRequest(nethttp.MethodGet, test.path, nil)
+			response := httptest.NewRecorder()
+
+			MovieDetails(failingMovieService{})(response, request)
+
+			if response.Code != nethttp.StatusBadRequest {
+				t.Fatalf("expected status 400, got %d", response.Code)
+			}
+
+			if strings.TrimSpace(response.Body.String()) != `{"error":"Invalid movie id"}` {
+				t.Fatalf("unexpected response body: %s", response.Body.String())
+			}
+		})
+	}
+}
+
+func TestMovieDetailsReturnsNotFoundError(t *testing.T) {
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/999999", nil)
+	response := httptest.NewRecorder()
+
+	MovieDetails(failingMovieService{detailsErr: movies.ErrMovieNotFound})(response, request)
+
+	if response.Code != nethttp.StatusNotFound {
+		t.Fatalf("expected status 404, got %d", response.Code)
+	}
+
+	if strings.TrimSpace(response.Body.String()) != `{"error":"Movie not found"}` {
+		t.Fatalf("unexpected response body: %s", response.Body.String())
+	}
+}
+
+func TestMovieDetailsReturnsMappedJSONResponse(t *testing.T) {
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/550", nil)
+	response := httptest.NewRecorder()
+	service := &searchMovieService{}
+
+	MovieDetails(service)(response, request)
+
+	if response.Code != nethttp.StatusOK {
+		t.Fatalf("expected status 200, got %d", response.Code)
+	}
+
+	if service.detailsID != 550 {
+		t.Fatalf("expected details id 550, got %d", service.detailsID)
+	}
+
+	expected := `{"id":550,"tmdbId":550,"title":"Fight Club","year":"1999","genres":["Drama"],"runtime":139,"releaseDate":"1999-10-15","posterUrl":"https://image.tmdb.org/t/p/w342/fight-club.jpg","backdropUrl":"https://image.tmdb.org/t/p/w780/fight-club-backdrop.jpg","rating":8.4,"overview":"An insomniac office worker meets a soap maker."}`
+	if strings.TrimSpace(response.Body.String()) != expected {
+		t.Fatalf("unexpected response body: %s", response.Body.String())
+	}
+}
+
+func TestMovieDetailsReturnsConfigurationError(t *testing.T) {
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/550", nil)
+	response := httptest.NewRecorder()
+
+	MovieDetails(failingMovieService{detailsErr: movies.ErrTMDBNotConfigured})(response, request)
+
+	if response.Code != nethttp.StatusInternalServerError {
+		t.Fatalf("expected status 500, got %d", response.Code)
+	}
+
+	if strings.TrimSpace(response.Body.String()) != `{"error":"TMDB is not configured"}` {
+		t.Fatalf("unexpected response body: %s", response.Body.String())
+	}
+}
+
+func TestMovieDetailsReturnsBadGatewayError(t *testing.T) {
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/550", nil)
+	response := httptest.NewRecorder()
+
+	MovieDetails(failingMovieService{detailsErr: errors.New("tmdb failed")})(response, request)
+
+	if response.Code != nethttp.StatusBadGateway {
+		t.Fatalf("expected status 502, got %d", response.Code)
+	}
+
+	if strings.TrimSpace(response.Body.String()) != `{"error":"Failed to fetch movie details"}` {
+		t.Fatalf("unexpected response body: %s", response.Body.String())
+	}
+}
+
+func TestStaticMovieRoutesAreNotSwallowedByDetailsRoute(t *testing.T) {
+	service := &searchMovieService{}
+	request := httptest.NewRequest(nethttp.MethodGet, "/movies/search?query=avatar&page=2", nil)
+	response := httptest.NewRecorder()
+
+	NewRouter(service).ServeHTTP(response, request)
+
+	if response.Code != nethttp.StatusOK {
+		t.Fatalf("expected status 200, got %d", response.Code)
+	}
+
+	if service.query != "avatar" {
+		t.Fatalf("expected search route to handle request, got query %s", service.query)
+	}
+
+	if service.detailsID != 0 {
+		t.Fatalf("expected details route not to be called, got id %d", service.detailsID)
 	}
 }

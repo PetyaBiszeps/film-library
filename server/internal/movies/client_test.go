@@ -359,3 +359,77 @@ func TestClientFetchFeedReturnsFeedErrors(t *testing.T) {
 		})
 	}
 }
+
+func TestClientGetMovieDetailsMapsTMDBResponse(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/movie/550" {
+			t.Fatalf("expected /movie/550 path, got %s", r.URL.Path)
+		}
+
+		if r.URL.RawQuery != "" {
+			t.Fatalf("expected no query params, got %s", r.URL.RawQuery)
+		}
+
+		if r.Header.Get("Authorization") != "Bearer test-token" {
+			t.Fatalf("unexpected authorization header")
+		}
+
+		if r.Header.Get("Accept") != "application/json" {
+			t.Fatalf("unexpected accept header")
+		}
+
+		response := TMDBMovieDetails{
+			ID:           550,
+			Title:        "Fight Club",
+			ReleaseDate:  "1999-10-15",
+			Genres:       []TMDBGenre{{ID: 18, Name: "Drama"}, {ID: 53, Name: "Thriller"}},
+			Runtime:      139,
+			PosterPath:   "/poster.jpg",
+			BackdropPath: "/backdrop.jpg",
+			VoteAverage:  8.4,
+			Overview:     "An insomniac office worker meets a soap maker.",
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(response); err != nil {
+			t.Fatalf("encode response: %v", err)
+		}
+	}))
+	t.Cleanup(server.Close)
+
+	client := NewTMDBClient(ClientConfig{
+		APIBaseURL:   server.URL,
+		ImageBaseURL: "https://image.tmdb.org/t/p",
+		BearerToken:  "test-token",
+	})
+
+	movie, err := client.GetMovieDetails(context.Background(), 550)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	if movie.ID != 550 || movie.TMDBID != 550 || movie.Title != "Fight Club" || movie.Year != "1999" || movie.Runtime != 139 || movie.ReleaseDate != "1999-10-15" || movie.PosterURL != "https://image.tmdb.org/t/p/w342/poster.jpg" || movie.BackdropURL != "https://image.tmdb.org/t/p/w780/backdrop.jpg" || movie.Rating != 8.4 || movie.Overview != "An insomniac office worker meets a soap maker." {
+		t.Fatalf("unexpected movie mapping: %+v", movie)
+	}
+
+	if len(movie.Genres) != 2 || movie.Genres[0] != "Drama" || movie.Genres[1] != "Thriller" {
+		t.Fatalf("unexpected genres: %+v", movie.Genres)
+	}
+}
+
+func TestClientGetMovieDetailsMapsNotFound(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusNotFound)
+	}))
+	t.Cleanup(server.Close)
+
+	client := NewTMDBClient(ClientConfig{
+		APIBaseURL:  server.URL,
+		BearerToken: "test-token",
+	})
+
+	_, err := client.GetMovieDetails(context.Background(), 999999)
+	if !errors.Is(err, ErrMovieNotFound) {
+		t.Fatalf("expected ErrMovieNotFound, got %v", err)
+	}
+}

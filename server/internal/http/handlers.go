@@ -16,6 +16,7 @@ type MovieService interface {
 	SearchMovies(ctx context.Context, query string, page int) (movies.MovieListResponse, error)
 	DiscoverMovies(ctx context.Context, sortBy string, page int) (movies.MovieListResponse, error)
 	FetchFeed(ctx context.Context, feedType string, page int) (movies.MovieListResponse, error)
+	GetMovieDetails(ctx context.Context, id int) (movies.MovieDetails, error)
 }
 
 type errorResponse struct {
@@ -147,6 +148,48 @@ func MovieFeed(movieService MovieService) nethttp.HandlerFunc {
 
 		writeJSON(w, nethttp.StatusOK, response)
 	}
+}
+
+func MovieDetails(movieService MovieService) nethttp.HandlerFunc {
+	return func(w nethttp.ResponseWriter, r *nethttp.Request) {
+		id, ok := movieIDFromRequest(r)
+		if !ok {
+			writeJSON(w, nethttp.StatusBadRequest, errorResponse{Error: "Invalid movie id"})
+			return
+		}
+
+		response, err := movieService.GetMovieDetails(r.Context(), id)
+		if errors.Is(err, movies.ErrTMDBNotConfigured) {
+			writeJSON(w, nethttp.StatusInternalServerError, errorResponse{Error: "TMDB is not configured"})
+			return
+		}
+
+		if errors.Is(err, movies.ErrMovieNotFound) {
+			writeJSON(w, nethttp.StatusNotFound, errorResponse{Error: "Movie not found"})
+			return
+		}
+
+		if err != nil {
+			writeJSON(w, nethttp.StatusBadGateway, errorResponse{Error: "Failed to fetch movie details"})
+			return
+		}
+
+		writeJSON(w, nethttp.StatusOK, response)
+	}
+}
+
+func movieIDFromRequest(r *nethttp.Request) (int, bool) {
+	idValue := r.PathValue("id")
+	if idValue == "" && strings.HasPrefix(r.URL.Path, "/movies/") {
+		idValue = strings.TrimPrefix(r.URL.Path, "/movies/")
+	}
+
+	id, err := strconv.Atoi(idValue)
+	if err != nil || id <= 0 {
+		return 0, false
+	}
+
+	return id, true
 }
 
 func writeJSON(w nethttp.ResponseWriter, status int, value any) {

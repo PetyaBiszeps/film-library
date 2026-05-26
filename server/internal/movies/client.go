@@ -12,8 +12,10 @@ import (
 )
 
 const defaultPosterSize = "w342"
+const defaultBackdropSize = "w780"
 
 var ErrTMDBNotConfigured = errors.New("tmdb is not configured")
+var ErrMovieNotFound = errors.New("movie not found")
 var ErrUnsupportedSortOption = errors.New("unsupported sort option")
 var ErrUnsupportedFeedType = errors.New("unsupported feed type")
 var ErrFeedNotImplemented = errors.New("feed is not implemented")
@@ -210,6 +212,41 @@ func (c *Client) FetchFeed(ctx context.Context, feedType string, page int) (Movi
 	}
 
 	return MapTMDBMovieListResponse(tmdbResponse, c.imageBaseURL, defaultPosterSize, nil), nil
+}
+
+func (c *Client) GetMovieDetails(ctx context.Context, id int) (MovieDetails, error) {
+	if strings.TrimSpace(c.bearerToken) == "" {
+		return MovieDetails{}, ErrTMDBNotConfigured
+	}
+
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.TrimRight(c.apiBaseURL, "/")+"/movie/"+strconv.Itoa(id), nil)
+	if err != nil {
+		return MovieDetails{}, fmt.Errorf("create tmdb movie details request: %w", err)
+	}
+
+	request.Header.Set("Authorization", "Bearer "+c.bearerToken)
+	request.Header.Set("Accept", "application/json")
+
+	response, err := c.httpClient.Do(request)
+	if err != nil {
+		return MovieDetails{}, fmt.Errorf("fetch movie details: %w", err)
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode == http.StatusNotFound {
+		return MovieDetails{}, ErrMovieNotFound
+	}
+
+	if response.StatusCode < http.StatusOK || response.StatusCode >= http.StatusMultipleChoices {
+		return MovieDetails{}, fmt.Errorf("tmdb returned status %d", response.StatusCode)
+	}
+
+	var tmdbResponse TMDBMovieDetails
+	if err := json.NewDecoder(response.Body).Decode(&tmdbResponse); err != nil {
+		return MovieDetails{}, fmt.Errorf("decode tmdb movie details: %w", err)
+	}
+
+	return MapTMDBMovieDetails(tmdbResponse, c.imageBaseURL), nil
 }
 
 func tmdbDiscoverSortBy(sortBy string) (string, bool, bool) {
