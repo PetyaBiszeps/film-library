@@ -104,7 +104,7 @@ Do not read, print, commit, or copy values from `.env` or `client/.env` unless e
 - Current route: `GET /health`, returns `ok`.
 - Default port is `8080`; override with the `PORT` environment variable.
 - CORS middleware lives in `server/internal/http/middleware.go`.
-- CORS currently allows `http://localhost:5173` and `http://127.0.0.1:5173` with credentials.
+- CORS currently allows `http://localhost:5173`, `http://127.0.0.1:5173`, and `https://flicks-client.vercel.app/` with credentials.
 
 ## Backend Commands
 

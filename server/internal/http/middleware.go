@@ -9,7 +9,7 @@ func CORS(next http.Handler) http.Handler {
 		origin := r.Header.Get("Origin")
 
 		switch origin {
-		  case "http://localhost:5173", "http://127.0.0.1:5173":
+		  case "http://localhost:5173", "http://127.0.0.1:5173", "https://flicks-client.vercel.app":
 				w.Header().Set("Access-Control-Allow-Origin", origin)
 				w.Header().Set("Vary", "Origin")
 				w.Header().Set("Access-Control-Allow-Credentials", "true")
