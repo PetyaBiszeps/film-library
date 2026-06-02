@@ -1,4 +1,10 @@
+# Default
 packages:
   - client
+
+# Allowed dependency scripts
 allowBuilds:
   '@parcel/watcher': true
+
+# Pnpm-specific rules
+minimumReleaseAge: 10080
