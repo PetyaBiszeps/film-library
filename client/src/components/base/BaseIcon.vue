@@ -12,13 +12,13 @@ const {
   }
 } = defineProps<IBaseIcon>()
 
-  // Init
+// Init
 const icons = import.meta.glob('/src/assets/svgs/*.svg', {
   eager: true,
   import: 'default'
 }) as Record<string, unknown>
 
-  // Constants
+// Constants
 const attributes = computed(() => {
   if (!src) {
     return {

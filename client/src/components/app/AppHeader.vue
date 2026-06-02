@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import NAV_CONTENT from '@/content/Navigation.content.ts'
-import CommonFilter from '@/components/common/CommonFilter.vue'
 import CommonProfile from '@/components/common/CommonProfile.vue'
+import CommonFilter from '@/components/common/CommonFilter.vue'
+import NAV_CONTENT from '@/content/Navigation.content.ts'
 // import BaseIcon from '@/components/base/BaseIcon.vue'
 </script>
 

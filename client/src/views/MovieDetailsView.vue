@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import BaseButton from '@/components/base/BaseButton.vue'
 import useMovieDetails from '@/composables/useMovieDetails.ts'
+import { useRoute } from 'vue-router'
 import {
   computed,
   onMounted
 } from 'vue'
-import { useRoute } from 'vue-router'
 
-  // Init
+// Init
 const route = useRoute()
 const {
   movie, isLoading, errorMessage, fetchMovieDetails
 } = useMovieDetails()
 
-  // Constants
+// Constants
 const movieID = computed(() => String(route.params.id ?? ''))
 const runtimeLabel = computed(() => {
   if (!movie.value?.runtime) {
@@ -38,7 +38,7 @@ const ratingLabel = computed(() => {
 })
 const detailMeta = computed(() => [movie.value?.year, runtimeLabel.value].filter(Boolean).join(' • '))
 
-  // Vue properties
+// Vue properties
 onMounted(() => {
   void fetchMovieDetails(movieID.value)
 })

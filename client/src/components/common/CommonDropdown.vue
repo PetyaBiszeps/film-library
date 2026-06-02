@@ -18,11 +18,11 @@ const emit = defineEmits<{
   (e: 'select', item: ICommonDropdownItem): void
 }>()
 
-  // Constants
+// Constants
 const isOpen = ref<boolean>(false)
 const rootRef = ref<HTMLElement | null>(null)
 
-  // Methods
+// Methods
 function closeMenu(): void {
   isOpen.value = false
 }
@@ -64,7 +64,7 @@ function onKeydown(e: KeyboardEvent): void {
   }
 }
 
-  // Vue properties
+// Vue properties
 onMounted(() => {
   document.addEventListener('pointerdown', onDocumentPointerDown)
   window.addEventListener('keydown', onKeydown)

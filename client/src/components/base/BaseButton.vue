@@ -16,7 +16,7 @@ const emit = defineEmits<{
   (e: 'click', event: PointerEvent): void
 }>()
 
-  // Constants
+// Constants
 const isLink = computed(() => Boolean(href))
 const isExternal = computed(() => {
   return href.startsWith('http')
@@ -51,7 +51,7 @@ const attributes = computed(() => {
   }
 })
 
-  // Methods
+// Methods
 function handleClick(e: PointerEvent): void {
   if (disabled) {
     return

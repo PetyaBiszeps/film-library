@@ -16,6 +16,7 @@ export default [{
     'quotes': ['error', 'single'],
     'comma-dangle': ['error', 'never'],
 
+    '@stylistic/indent': ['error', 2],
     '@stylistic/semi': ['error', 'never'],
     '@stylistic/quotes': ['error', 'single'],
     '@stylistic/eol-last': ['error', 'always'],

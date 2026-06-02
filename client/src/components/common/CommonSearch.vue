@@ -17,12 +17,12 @@ const model = defineModel<string>({
   default: ''
 })
 
-  // Constants
+// Constants
 const state = reactive({
   isSearching: false
 })
 
-  // Methods
+// Methods
 const openSearch = () => {
   state.isSearching = true
 }
@@ -44,7 +44,7 @@ function onKeyEvent(e: KeyboardEvent) {
   }
 }
 
-  // Vue properties
+// Vue properties
 onMounted(() => {
   window.addEventListener('keydown', onKeyEvent)
 })

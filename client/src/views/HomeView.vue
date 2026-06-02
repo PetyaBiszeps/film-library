@@ -16,25 +16,25 @@ import type {
   IMovie
 } from '@/types'
 
-  // Init
+// Init
 const router = useRouter()
 const {
   movies, hasMovies, isLoading, isLoadingMore, errorMessage, searchQuery, activeSort, activeFeed, moviesMeta, isSearchActive,
   canLoadMore, fetchSearchMovies, fetchDiscoveredMovies, fetchMovieFeed, loadMoreMovies
 } = useMovies()
 
-  // Constants
+// Constants
 const sortItems = computed(() => HOME_CONTENT.main.sort.items.map((item) => ({
   ...item,
   active: item.key === activeSort.value
 })))
 
-  // Vue properties
+// Vue properties
 onMounted(() => {
   void fetchMovieFeed()
 })
 
-  // Methods
+// Methods
 function openMovieDetails(movie: IMovie): void {
   void router.push(`/movies/${movie.tmdbId}`)
 }

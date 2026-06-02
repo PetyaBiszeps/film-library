@@ -12,7 +12,7 @@ const {
   variant = 'primary'
 } = defineProps<IBaseLink>()
 
-  // Constants
+// Constants
 const isExternal = computed(() => {
   return href.startsWith('http')
 })

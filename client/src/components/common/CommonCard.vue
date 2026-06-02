@@ -19,7 +19,7 @@ const emit = defineEmits<{
   (e: 'click', event: MouseEvent | KeyboardEvent): void
 }>()
 
-  // Constants
+// Constants
 const card = computed(() => {
   return {
     title: title,
@@ -33,7 +33,7 @@ const card = computed(() => {
   }
 })
 
-  // Methods
+// Methods
 function handleSelect(e: MouseEvent | KeyboardEvent): void {
   if (disabled) {
     return

@@ -26,7 +26,7 @@ const model = defineModel<string | number | null>({
   required: true
 })
 
-  // Constants
+// Constants
 const idx = id ?? useId()
 </script>
 

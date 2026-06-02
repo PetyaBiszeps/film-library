@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import NavigationContent from '@/content/Navigation.content.ts'
-import HOME_CONTENT from '@/content/home.ts'
 import CommonChip from '@/components/common/CommonChip.vue'
 import useMovies from '@/composables/useMovies.ts'
+import HOME_CONTENT from '@/content/home.ts'
 
 const {
   activeFeed,

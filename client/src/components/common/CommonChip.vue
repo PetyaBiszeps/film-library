@@ -16,7 +16,7 @@ const emit = defineEmits<{
   (e: 'click', event: PointerEvent): void
 }>()
 
-  // Methods
+// Methods
 function handleClick(e: PointerEvent): void {
   if (disabled) {
     return
