@@ -7,9 +7,6 @@ export default [{
   ignores: ['node_modules/**', 'public/**', 'dist/**']
 }, ...tseslint.configs.recommended, ...pluginVue.configs['flat/recommended'], {
   files: ['**/*.vue', '**/*.ts', '**/*.js'],
-  plugins: {
-    '@stylistic': stylistic
-  },
   rules: {
     'no-console': 'warn',
     'no-unreachable': 'error',
@@ -92,6 +89,9 @@ export default [{
       varsIgnorePattern: '^_',
       caughtErrorsIgnorePattern: '^_'
     }]
+  },
+  plugins: {
+    '@stylistic': stylistic
   },
   languageOptions: {
     parserOptions: {
