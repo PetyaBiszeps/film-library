@@ -25,12 +25,10 @@ export default [{
     '@stylistic/semi': ['error', 'never'],
     '@stylistic/quotes': ['error', 'single'],
     '@stylistic/eol-last': ['error', 'always'],
+    '@stylistic/brace-style': ['error', '1tbs'],
     '@stylistic/comma-dangle': ['error', 'never'],
     '@stylistic/object-curly-spacing': ['error', 'always'],
     '@stylistic/quote-props': ['error', 'consistent-as-needed'],
-    '@stylistic/brace-style': ['error', '1tbs', {
-      allowSingleLine: true
-    }],
     '@stylistic/key-spacing': ['error', {
       beforeColon: false,
       afterColon: true
